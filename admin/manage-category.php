@@ -14,7 +14,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':id', $id, PDO::PARAM_STR);
 		$query->execute();
-		$msg = "Page data updated  successfully";
+		$msg = "Category Deleted Succesfully!";
 	}
 
 ?>
@@ -115,8 +115,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 											<tr>
 												<td><?php echo htmlentities($cnt); ?></td>
 												<td><?php echo htmlentities($result->CategoryName); ?></td>
-												<td><a href="edit-category.php?id=<?php echo $result->id; ?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-													<a href="manage-category.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this category? All products within this category will also be deleted!');"><i class="fa fa-close"></i></a>
+												<td>
+													<a href="edit-category.php?id=<?php echo $result->id; ?>" class="btn btn-primary">Edit</a>&nbsp;&nbsp;
+													<a href="manage-category.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this category? All products within this category will also be deleted!');" class="btn btn-primary">Delete</a>
 												</td>
 											</tr>
 											<?php $cnt = $cnt + 1;
@@ -125,6 +126,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 										</tbody>
 									</table>
+								</div>
+								<div class="addcat" style="text-align:center; margin-bottom: 30px;">
+									<a href="create-category.php" class="btn btn-primary">Add a Category</a>
 								</div>
 							</div>
 						</div>

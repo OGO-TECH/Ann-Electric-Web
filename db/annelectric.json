@@ -1,0 +1,63 @@
+[
+    {
+        "type": "header",
+        "version": "5.2.0",
+        "comment": "Export to JSON plugin for PHPMyAdmin"
+    },
+    {
+        "type": "database",
+        "name": "annelectric"
+    },
+    {
+        "type": "table",
+        "name": "tbladmin",
+        "database": "annelectric",
+        "data": [
+            {
+                "id": "1",
+                "UserName": "chris",
+                "Password": "admin",
+                "CreatedOn": "2022-12-01"
+            }
+        ]
+    },
+    {
+        "type": "table",
+        "name": "tblcategory",
+        "database": "annelectric",
+        "data": [
+            {
+                "id": "1",
+                "CategoryName": "Extension"
+            },
+            {
+                "id": "2",
+                "CategoryName": "Tube Fitting"
+            }
+        ]
+    },
+    {
+        "type": "table",
+        "name": "tblcontactusinfo",
+        "database": "annelectric",
+        "data": []
+    },
+    {
+        "type": "table",
+        "name": "tblproducts",
+        "database": "annelectric",
+        "data": []
+    },
+    {
+        "type": "table",
+        "name": "tblsubcategory",
+        "database": "annelectric",
+        "data": [
+            {
+                "id": "1",
+                "SubCategory": "4ft Tube Fitting",
+                "Category": "2"
+            }
+        ]
+    }
+]

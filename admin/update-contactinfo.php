@@ -31,7 +31,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<meta name="author" content="Geofrey Obara">
 		<meta name="theme-color" content="#3e454c">
 
-		<title>Laptop Rental Portal | Update Contact Info</title>
+		<title>Ann Electric | Update Contact Info</title>
 
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -88,7 +88,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 									<div class="panel panel-default">
 										<div class="panel-heading">Form fields</div>
 										<div class="panel-body">
-											<form method="post" name="chngpwd" class="form-horizontal" onSubmit="return valid();">
+											<form method="post" name="updatecontact" class="form-horizontal">
 
 												<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 												<?php $sql = "SELECT * from  tblcontactusinfo ";
@@ -106,7 +106,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 															</div>
 														</div>
 														<div class="form-group">
-															<label class="col-sm-4 control-label"> Email id</label>
+															<label class="col-sm-4 control-label"> Email</label>
 															<div class="col-sm-8">
 																<input type="email" class="form-control" name="email" id="email" value="<?php echo htmlentities($result->EmailId); ?>" required>
 															</div>

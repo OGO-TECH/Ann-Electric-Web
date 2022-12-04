@@ -1,6 +1,6 @@
 <div class="brand clearfix">
-	<div class="logo">
-		<a href="dashboard.php">Ann Electric | Admin Panel</a>
+	<div class="branding" style="float: left;">
+		<h2 style="margin: 12px 16px 12px 16px"><a href="dashboard.php">Ann Electric | Admin Panel</a></h2>
 	</div>
 
 	<span class="menu-btn"><i class="fa fa-bars"></i></span>
