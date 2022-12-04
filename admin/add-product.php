@@ -7,55 +7,43 @@ if (strlen($_SESSION['alogin']) == 0) {
 } else {
     # Assign form input with variables.
 	if (isset($_POST['submit'])) {
-		$serialnumber = $_POST['serialnumber'];
-		$emailid = $_POST['emailid'];
-		$laptoptitle = $_POST['laptoptitle'];
-		$brand = $_POST['brandname'];
-		$laptopoverview = $_POST['laptoporcview'];
-		$priceperday = $_POST['priceperday'];
-		$processor = $_POST['processor'];
-		$storage = $_POST['storage'];
-		$ram = $_POST['ram'];
-		$vimage1 = $_FILES["img1"]["name"];
-		$vimage2 = $_FILES["img2"]["name"];
-		$vimage3 = $_FILES["img3"]["name"];
-		$vimage4 = $_FILES["img4"]["name"];
-		$charger = $_POST['charger'];
-		$bag = $_POST['bag'];
-		$mouse = $_POST['mouse'];
-		move_uploaded_file($_FILES["img1"]["tmp_name"], "img/laptopimages/" . $_FILES["img1"]["name"]);
-		move_uploaded_file($_FILES["img2"]["tmp_name"], "img/laptopimages/" . $_FILES["img2"]["name"]);
-		move_uploaded_file($_FILES["img3"]["tmp_name"], "img/laptopimages/" . $_FILES["img3"]["name"]);
-		move_uploaded_file($_FILES["img4"]["tmp_name"], "img/laptopimages/" . $_FILES["img4"]["name"]);
+		$partNumber = $_POST['partnumber'];
+		$productName = $_POST['productname'];
+		$category = $_POST['category'];
+		$subCategory = $_POST['subcategory'];
+		$productDescription= $_POST['productdescription'];
+		$pack = $_POST['pack'];
+		$image1 = $_FILES["img1"]["name"];
+		$image2 = $_FILES["img2"]["name"];
+		$image3 = $_FILES["img3"]["name"];
+		$detimage4 = $_FILES["img4"]["name"];
+		move_uploaded_file($_FILES["img1"]["tmp_name"], "img/productimages/" . $_FILES["img1"]["name"]);
+		move_uploaded_file($_FILES["img2"]["tmp_name"], "img/productimages/" . $_FILES["img2"]["name"]);
+		move_uploaded_file($_FILES["img3"]["tmp_name"], "img/productimages/" . $_FILES["img3"]["name"]);
+		move_uploaded_file($_FILES["img4"]["tmp_name"], "img/productimages/" . $_FILES["img4"]["name"]);
 
         #Insert form data into database tbllaptops.
-		$sql = "INSERT INTO tbllaptops(SerialNumber,OwnerEmail,LaptopTitle,LaptopBrand,LaptopOverview,PricePerDay,Processor,
-		        Storage,RAM,Vimage1,Vimage2,Vimage3,Vimage4,Charger,Bag,Mouse) 
-		        VALUES(:serialnumber,:email,:laptoptitle,:brand,:laptopoverview,:priceperday,:processor,
-				:storage,:ram,:vimage1,:vimage2,:vimage3,:vimage4,:charger,:bag,:mouse)";
+		$sql = "INSERT INTO tblproducts(PartNo.,ProductName,Category,SubCategory,Description,Pack,
+		        Image1,Image2,Image3,DetImage) 
+		        VALUES(:partnumber,:productname,:category,:subcategory,:productdescription,:pack,
+				:image1,:image2,:image3,:detimage)";
 
 		$query = $dbh->prepare($sql);
-		$query->bindParam(':serialnumber', $serialnumber, PDO::PARAM_STR);
-		$query->bindParam(':email', $emailid, PDO::PARAM_STR);
-		$query->bindParam(':laptoptitle', $laptoptitle, PDO::PARAM_STR);
-		$query->bindParam(':brand', $brand, PDO::PARAM_STR);
-		$query->bindParam(':laptopoverview', $laptopoverview, PDO::PARAM_STR);
-		$query->bindParam(':priceperday', $priceperday, PDO::PARAM_STR);
-		$query->bindParam(':processor', $processor, PDO::PARAM_STR);
-		$query->bindParam(':storage', $storage, PDO::PARAM_STR);
-		$query->bindParam(':ram', $ram, PDO::PARAM_STR);
-		$query->bindParam(':vimage1', $vimage1, PDO::PARAM_STR);
-		$query->bindParam(':vimage2', $vimage2, PDO::PARAM_STR);
-		$query->bindParam(':vimage3', $vimage3, PDO::PARAM_STR);
-		$query->bindParam(':vimage4', $vimage4, PDO::PARAM_STR);
-		$query->bindParam(':charger', $charger, PDO::PARAM_STR);
-		$query->bindParam(':bag', $bag, PDO::PARAM_STR);
-		$query->bindParam(':mouse', $mouse, PDO::PARAM_STR);
+		$query->bindParam(':partnumber', $partnumber, PDO::PARAM_STR);
+		$query->bindParam(':productname', $productnameid, PDO::PARAM_STR);
+		$query->bindParam(':category', $category, PDO::PARAM_STR);
+		$query->bindParam(':subcategory', $subcategory, PDO::PARAM_STR);
+		$query->bindParam(':productdescription', $productdescription, PDO::PARAM_STR);
+		$query->bindParam(':pack', $pack, PDO::PARAM_STR);
+		$query->bindParam(':image1', $image1, PDO::PARAM_STR);
+		$query->bindParam(':vimage2', $image2, PDO::PARAM_STR);
+		$query->bindParam(':vimage3', $image3, PDO::PARAM_STR);
+		$query->bindParam(':detimage4', $detimage4, PDO::PARAM_STR);
 		$query->execute();
 
 		$lastInsertId = $dbh->lastInsertId();
 		if ($lastInsertId) {
-			$msg = "Laptop posted successfully";
+			$msg = "Product added succesfully";
 		} else {
 			$error = "Something went wrong. Please try again";
 		}
@@ -131,6 +119,71 @@ if (strlen($_SESSION['alogin']) == 0) {
 								<div class="col-md-12">
 									<div class="panel panel-default">
 										<div class="panel-heading">Basic Info</div>
+										<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+
+										<div class="panel-body">
+											<form method="post" class="form-horizontal" enctype="multipart/form-data">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">PartNo<span style="color: red;">*</span></label>
+													<div class="col-sm-4">
+														<input type="text" name="partnumber" class="form-control" required>
+													</div>
+
+													<label class="col-sm-2 control-label">ProductName<span style="color: red;">*</span></label>
+													<div class="col-sm-4">
+														<input type="text" name="productname" class="form-control" required>
+													</div>
+												</div>
+
+												<div class="hr-dashed"></div>
+
+												<div class="form-group">
+													
+													<label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
+													<div class="col-sm-4">
+														<select class="selectpicker" name="category" required>
+															<option value="">Select</option>
+															<?php
+															# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
+															$ret = "select id, CategoryName from tblcategory";
+															$query = $dbh->prepare($ret);
+															$query->execute();
+															$results = $query->fetchAll(PDO::FETCH_OBJ);
+															if ($query->rowCount()>0){
+																foreach ($results as $result){ ?>
+																<option value="<?php echo htmlentities($result->id)?>" onchange=""><?php echo htmlentities($result->CategoryName);?></option>
+																<?php 
+																$cat = ($result->CategoryName);
+																}
+															}
+															
+															?>
+														</select>
+													</div>
+
+													<label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
+													<div class="col-sm-4">
+														<select class="selectpicker" name="subcategory" required>
+															<option value="">Select</option>
+															<?php
+															$ret = "select id, CategoryName from tblcategory";
+															$query = $dbh->prepare($ret);
+															$query->execute();
+															$results = $query->fetchAll(PDO::FETCH_OBJ);
+															if ($query->rowCount()>0){
+																foreach ($results as $result){ ?>
+																<option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->CategoryName);?></option>
+																<?php }
+															}
+															?>
+														</select>
+													</div>
+												</div>
+
+												<div class="hr-dashed"></div>
+
+											</form>
+										</div>
                                     </div>
                                 </div>
                             </div>

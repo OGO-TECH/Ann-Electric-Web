@@ -102,6 +102,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         <input type="text" class="form-control" name="subcategory" id="subcategory" required>
                                                     </div>
                                                 </div>
+                                                
+                                                <div class="hr-dashed"></div>
 
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">Category</label>
