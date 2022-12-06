@@ -10,11 +10,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 	if (isset($_GET['del'])) {
 		$id = $_GET['del'];
-		$sql = "delete from tblcategory  WHERE id=:id";
+		$sql = "delete from tblproducts  WHERE id=:id";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':id', $id, PDO::PARAM_STR);
 		$query->execute();
-		$msg = "Category Deleted Succesfully!";
+		$msg = "Product Deleted Succesfully!";
 	}
 
 ?>
@@ -30,7 +30,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<meta name="author" content="Geofrey Obara">
 		<meta name="theme-color" content="#3e454c">
 
-		<title>Ann Electric |Admin Manage Category </title>
+		<title>Ann Electric |Admin Manage product </title>
 
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -81,31 +81,39 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="row">
 						<div class="col-md-12">
 
-							<h2 class="page-title">Manage Category</h2>
+							<h2 class="page-title">Manage Products</h2>
 
 							<!-- Zero Configuration Table -->
 							<div class="panel panel-default">
-								<div class="panel-heading">Listed Categories</div>
+								<div class="panel-heading">Listed Products</div>
 								<div class="panel-body">
 									<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 									<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 										<thead>
 											<tr>
 												<th>#</th>
-												<th>Category Name</th>
+                                                <th>PartNo</th>
+												<th>Product Name</th>
+                                                <th>Category</th>
+												<th>Description</th>
+                                                <th>Added On</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 										<tfoot>
 											<tr>
 												<th>#</th>
-												<th>Category Name</th>
+                                                <th>PartNo</th>
+												<th>Product Name</th>
+                                                <th>Category</th>
+												<th>Description</th>
+                                                <th>Added On</th>
 												<th>Action</th>
 											</tr>
 											</tr>
 										</tfoot>
 										<tbody>
-											<?php $sql = "SELECT * from  tblcategory ";
+											<?php $sql = "SELECT * from  tblproducts join tblcategory on tblcategory.id = tblproducts.Category";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -114,10 +122,14 @@ if (strlen($_SESSION['alogin']) == 0) {
 												foreach ($results as $result) {				?>
 											<tr>
 												<td><?php echo htmlentities($cnt); ?></td>
-												<td><?php echo htmlentities($result->CategoryName); ?></td>
+												<td><?php echo htmlentities($result->PartNo); ?></td>
+                                                <td><?php echo htmlentities($result->ProductName); ?></td>
+                                                <td><?php echo htmlentities($result->CategoryName); ?></td>
+												<td><?php echo htmlentities($result->Description); ?></td>
+                                                <td><?php echo htmlentities($result->CreatedOn); ?></td>
 												<td>
-													<a href="edit-category.php?id=<?php echo $result->id; ?>" class="btn btn-primary">Edit</a>&nbsp;&nbsp;
-													<a href="manage-category.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this category? All products within this category will also be deleted!');" class="btn btn-primary" style="background-color: #e53131;">Delete</a>
+													<a href="edit-product.php?id=<?php echo $result->id; ?>" class="btn btn-primary">Edit</a>&nbsp;&nbsp;
+													<a href="manage-product.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this product?');" class="btn btn-primary" style="background-color: #e53131;">Delete</a>
 												</td>
 											</tr>
 											<?php $cnt = $cnt + 1;
@@ -128,7 +140,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 									</table>
 								</div>
 								<div class="addcat" style="text-align:center; margin-bottom: 30px;">
-									<a href="create-category.php" class="btn btn-primary">Add a Category</a>
+									<a href="add-product.php" class="btn btn-primary">Add a Product</a>
 								</div>
 							</div>
 						</div>

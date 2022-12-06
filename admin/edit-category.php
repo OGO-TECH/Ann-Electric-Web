@@ -6,29 +6,18 @@ if (strlen($_SESSION['alogin']) == 0) {
 	header('location:index.php');
 } else {
 
-	#Update tbladmin in password field with new password from form input.
-
+	# Update brand information 
 	if (isset($_POST['submit'])) {
-		$password = md5($_POST['password']);
-		$newpassword = md5($_POST['newpassword']);
-		$username = $_SESSION['alogin'];
-		$sql = "SELECT Password FROM tbladmin WHERE UserName=:username and Password=:password";
+		$category = $_POST['category'];
+		$id = $_GET['id'];
+		$sql = "update  tblcategory set CategoryName=:category where id=:id";
 		$query = $dbh->prepare($sql);
-		$query->bindParam(':username', $username, PDO::PARAM_STR);
-		$query->bindParam(':password', $password, PDO::PARAM_STR);
+		$query->bindParam(':category', $category, PDO::PARAM_STR);
+		$query->bindParam(':id', $id, PDO::PARAM_STR);
 		$query->execute();
-		$results = $query->fetchAll(PDO::FETCH_OBJ);
-		if ($query->rowCount() > 0) {
-			$con = "update tbladmin set Password=:newpassword where UserName=:username";
-			$changepassword1 = $dbh->prepare($con);
-			$changepassword1->bindParam(':username', $username, PDO::PARAM_STR);
-			$changepassword1->bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
-			$changepassword1->execute();
-			$msg = "Your password was succesfully changed";
-			header('location:index.php');
-		} else {
-			$error = "Your current password is not valid.";
-		}
+		$lastInsertId = $dbh->lastInsertId();
+
+		$msg = "Category updated successfully";
 	}
 ?>
 
@@ -43,7 +32,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<meta name="author" content="Geofrey Obara">
 		<meta name="theme-color" content="#3e454c">
 
-		<title>Ann Electric | Admin Change Password</title>
+		<title>Ann Electric | Admin Edit Category</title>
 
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -61,20 +50,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
 		<!-- Admin Stye -->
 		<link rel="stylesheet" href="css/style.css">
-
-		<!--Check password match script for new passworad and confirm password-->
-
-		<script type="text/javascript">
-			function valid() {
-				if (document.changepassword.newpassword.value != document.changepassword.confirmpassword.value) {
-					alert("New Password and Confirm Password Field do not match  !!");
-					document.changepassword.confirmpassword.focus();
-					return false;
-				}
-				return true;
-			}
-		</script>
-
 		<style>
 			.errorWrap {
 				padding: 10px;
@@ -107,43 +82,46 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="row">
 						<div class="col-md-12">
 
-							<h2 class="page-title">Change Password</h2>
+							<h2 class="page-title">Edit Category</h2>
 
 							<div class="row">
 								<div class="col-md-10">
 									<div class="panel panel-default">
 										<div class="panel-heading">Form fields</div>
+										<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 										<div class="panel-body">
-											<form method="post" name="changepassword" class="form-horizontal" onSubmit="return valid();">
+											<form method="post" name="editcategory" class="form-horizontal">
 
 												<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+
+												<?php
+												$id = $_GET['id'];
+												$ret = "select * from tblcategory where id=:id";
+												$query = $dbh->prepare($ret);
+												$query->bindParam(':id', $id, PDO::PARAM_STR);
+												$query->execute();
+												$results = $query->fetchAll(PDO::FETCH_OBJ);
+												$cnt = 1;
+												if ($query->rowCount() > 0) {
+													foreach ($results as $result) {
+												?>
+
 												<div class="form-group">
-													<label class="col-sm-4 control-label">Current Password</label>
+													<label class="col-sm-4 control-label">Category Name</label>
 													<div class="col-sm-8">
-														<input type="password" class="form-control" name="password" id="password" required>
+														<input type="text" class="form-control" value="<?php echo htmlentities($result->CategoryName); ?>" name="category" id="category" required>
 													</div>
 												</div>
 												<div class="hr-dashed"></div>
 
-												<div class="form-group">
-													<label class="col-sm-4 control-label">New Password</label>
-													<div class="col-sm-8">
-														<input type="password" class="form-control" name="newpassword" id="newpassword" required>
-													</div>
-												</div>
-												<div class="hr-dashed"></div>
+												<?php }
+												} ?>
 
-												<div class="form-group">
-													<label class="col-sm-4 control-label">Confirm Password</label>
-													<div class="col-sm-8">
-														<input type="password" class="form-control" name="confirmpassword" id="confirmpassword" required>
-													</div>
-												</div>
-												<div class="hr-dashed"></div>
 
 												<div class="form-group">
 													<div class="col-sm-8 col-sm-offset-4">
-														<button class="btn btn-primary" name="submit" type="submit">Save changes</button>
+
+														<button class="btn btn-primary" name="submit" type="submit">Submit</button>
 													</div>
 												</div>
 
