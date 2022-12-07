@@ -116,8 +116,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<td><?php echo htmlentities($cnt); ?></td>
 												<td><?php echo htmlentities($result->CategoryName); ?></td>
 												<td>
-													<a href="edit-category.php?id=<?php echo $result->id; ?>" class="btn btn-primary">Edit</a>&nbsp;&nbsp;
-													<a href="manage-category.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this category? All products within this category will also be deleted!');" class="btn btn-primary" style="background-color: #e53131;">Delete</a>
+													<a href="edit-category.php?id=<?php echo $result->id; ?>" class="btn btn-primary" style="line-height: 10px;">Edit</a>&nbsp;&nbsp;
+													<a href="manage-category.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this category? All products within this category will also be deleted!');" class="btn btn-primary" style="background-color: #e53131; line-height: 10px;">Delete</a>
 												</td>
 											</tr>
 											<?php $cnt = $cnt + 1;

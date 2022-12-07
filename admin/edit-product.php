@@ -13,19 +13,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$subCategory = $_POST['subcategory'];
 		$productDescription= $_POST['productdescription'];
 		$pack = $_POST['pack'];
-		$image1 = $_FILES["img1"]["name"];
-		$image2 = $_FILES["img2"]["name"];
-		$image3 = $_FILES["img3"]["name"];
-		$detimage = $_FILES["img4"]["name"];
-		move_uploaded_file($_FILES["img1"]["tmp_name"], "img/productimages/" . $_FILES["img1"]["name"]);
-		move_uploaded_file($_FILES["img2"]["tmp_name"], "img/productimages/" . $_FILES["img2"]["name"]);
-		move_uploaded_file($_FILES["img3"]["tmp_name"], "img/productimages/" . $_FILES["img3"]["name"]);
-		move_uploaded_file($_FILES["img4"]["tmp_name"], "img/productimages/" . $_FILES["img4"]["name"]);
 
         #Insert form data into database tbllaptops.
 		$sql = "update tblproducts
-                set PartNo=:partnumber,ProductName=:productname,Category=:category,SubCategory=:subcategory,Description=:productdescription,Pack=:pack,
-		        Image1=:image1,Image2=:image2,Image3=:image3,DetImage=:detimage ";
+                set PartNo=:partnumber,ProductName=:productname,Category=:category,SubCategory=:subcategory,Description=:productdescription,Pack=:pack";
 
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':partnumber', $partNumber, PDO::PARAM_STR);
@@ -34,10 +25,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$query->bindParam(':subcategory', $subCategory, PDO::PARAM_STR);
 		$query->bindParam(':productdescription', $productDescription, PDO::PARAM_STR);
 		$query->bindParam(':pack', $pack, PDO::PARAM_STR);
-		$query->bindParam(':image1', $image1, PDO::PARAM_STR);
-		$query->bindParam(':image2', $image2, PDO::PARAM_STR);
-		$query->bindParam(':image3', $image3, PDO::PARAM_STR);
-		$query->bindParam(':detimage', $detimage, PDO::PARAM_STR);
 		$query->execute();
 
 		$msg = "Product edited succesfully";
@@ -111,160 +98,142 @@ if (strlen($_SESSION['alogin']) == 0) {
 							<h2 class="page-title">Edit Product</h2>
 
 							<div class="row">
-								<div class="col-md-10">
+								<div class="col-md-12">
 									<div class="panel panel-default" style="overflow: inherit !important;">
 										<div class="panel-heading">Basic Info</div>
-										<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
-
 										<div class="panel-body">
-										    <form method="post" class="form-horizontal" enctype="multipart/form-data">
-                                            <?php if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
-                                            <?php
-                                            $id = intval($GET['id']);
-                                            $sql = "SELECT tblproducts.*tblcategory.CategoryName,tblcategory.id as cid, tblsubcategory.SubCategory, tblsubcategory.id as scid from tblproducts
-                                                    join tblcategory on tblcategory.id=tblproducts.Category 
-                                                    join tblsubcategory on tblsubcategory.id=tblproducts.SubCategory 
-                                                    where tblproducts.id=:id";
+										    <?php if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+											<?php
+                                            $id = intval($_GET['id']);
+                                            $sql = "SELECT tblproducts.*, tblcategory.CategoryName, tblcategory.id as cid,tblsubcategory.subCategoryName, tblsubcategory.id as scid from tblproducts 
+											        join tblcategory on tblcategory.id = tblproducts.Category
+													join tblsubcategory on tblsubcategory.id = tblproducts.SubCategory
+											        where tblproducts.id=:id";
                                             $query = $dbh->prepare($sql);
                                             $query->bindParam(':id', $id,PDO::PARAM_STR);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
                                             $cnt = 1;
-
-                                            if($query->rowCount() > 0){
-                                                foreach ($results as $result){ ?>
                                             
-											    
-											    	<div class="form-group">
-											    		<label class="col-sm-2 control-label">PartNo<span style="color: red;">*</span></label>
-											    		<div class="col-sm-4">
-											    			<input type="text" name="partnumber" class="form-control" value="<?php echo htmlentities($result->PartNo); ?>" required>
-											    		</div>
-    
-											    		<label class="col-sm-2 control-label">ProductName<span style="color: red;">*</span></label>
-											    		<div class="col-sm-4">
-											    			<input type="text" name="productname" class="form-control" value="<?php echo htmlentities($result->ProductName); ?>" required>
-											    		</div>
+                                            if($query->rowCount() > 0){ foreach ($results as $result){ ?> 
+										    <form method="post"name="editproduct"  class="form-horizontal" enctype="multipart/form-data">
+											    <div class="form-group">
+											    	<label class="col-sm-2 control-label">PartNo<span style="color: red;">*</span></label>
+											    	<div class="col-sm-4">
+											    		<input type="text" name="partnumber" class="form-control" value="<?php echo htmlentities($result->PartNo); ?>" required>
 											    	</div>
-    
-											    	<div class="hr-dashed"></div>
-    
-											    	<div class="form-group">
-											    		
-											    		<label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
-											    		<div class="col-sm-4">
-											    			<select class="formselect" name="category" required>
-											    				<option value="<?php echo htmlentities($result->cid)?>"><?php echo htmlentities($catname = $result->CategoryName);?></option>
-											    				<?php
-											    				# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
-											    				$ret = "select id, CategoryName from tblcategory";
-											    				$query = $dbh->prepare($ret);
-											    				$query->execute();
-											    				$resultss = $query->fetchAll(PDO::FETCH_OBJ);
-											    				if ($query->rowCount()>0){
-											    					foreach ($resultss as $results){ 
-																		if ($results->CategoryName == $catname){
-																			continue;
-																		} else {?>
-                                                                            <option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->CategoryName);?></option>
-																		<?php }
-																		?>
-											    					<?php 
-											    					}
-											    				}
-											    				
-											    				?>
-											    			</select>
-											    		</div>
-    
-											    		<label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
-											    		<div class="col-sm-4">
-											    			<select class="formselect" name="subcategory" required>
-											    				<option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->SubCategory);?></option>
-											    				<?php
-											    				$ret = "select id, SubCategory from tblsubcategory";
-											    				$query = $dbh->prepare($ret);
-											    				$query->execute();
-											    				$results = $query->fetchAll(PDO::FETCH_OBJ);
-											    				if ($query->rowCount()>0){
-											    					foreach ($resultss as $results){ 
-																		if ($results->CategoryName == $catname){
-																			continue;
-																		} else {?>
-                                                                            <option value="<?php echo htmlentities($results->id)?>"><?php echo htmlentities($result->CategoryName);?></option>
-																		<?php }
-																		?>
-											    					<?php 
-											    					}
-											    				}
-											    				
-											    				?>
-											    			</select>
-											    		</div>
-											    	</div>
-    
-											    	<div class="hr-dashed"></div>
-    
-											    	<div class="form-group">
-											    		<label class="col-sm-2 control-label">Product Description<span style="color: red;">*</span></label>
-											    		<div class="col-sm-10">
-											    		    <textarea class="form-control" name="productdescription" rows="3" value="<?php echo htmlentities($result->Description); ?>"required></textarea>
-											    		</div>
-											    	</div>
-    
-											    	<div class="form-group">
-											    	    <label class="col-sm-2 control-label">Pack<span style="color: red;">*</span></label>
-											    		<div class="col-sm-4">
-											    			<input type="text" name="pack" class="form-control" value="<?php echo htmlentities($result->Pack); ?>" required>
-											    		</div>
-											    	</div>
-    
-											    	<div class="hr-dashed"></div>
-    
-											    	<div class="form-group">
-											    		<div class="col-sm-12">
-											    			<h4><b>Product Images</b></h4>
-											    		</div>
-											    	</div>
-    
-											    	<div class="form-group">
-                                                        <div class="col-sm-4">
-															Image 1 <img src="img/productimages/<?php echo htmlentities($result->Image1); ?>" width="300" height="200" style="border:solid 1px #000">
-															<a href="changeimage1.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 1</a>
-														</div>
 
-														<div class="col-sm-4">
-															Image 2<img src="img/productimages/<?php echo htmlentities($result->Image2); ?>" width="300" height="200" style="border:solid 1px #000">
-															<a href="changeimage2.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 2</a>
-														</div>
-
-														<div class="col-sm-4">
-															Image 3<img src="img/productimages/<?php echo htmlentities($result->Image3); ?>" width="300" height="200" style="border:solid 1px #000">
-															<a href="changeimage3.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 3</a>
-														</div>
+											    	<label class="col-sm-2 control-label">ProductName<span style="color: red;">*</span></label>
+											    	<div class="col-sm-4">
+											    		<input type="text" name="productname" class="form-control" value="<?php echo htmlentities($result->ProductName); ?>" required>
 											    	</div>
-    
-											    	<div class="form-group">
-														<div class="col-sm-4">
-															Image 4<img src="img/productimages/<?php echo htmlentities($result->DetImage); ?>" width="300" height="200" style="border:solid 1px #000">
-															<a href="changedetailimage.php?imgid=<?php echo htmlentities($result->id) ?>">Change Description Image</a>
-														</div>
-													</div>
-                                                    
-											    	<div class="hr-dashed"></div>
+											    </div>
+        
+											    <div class="hr-dashed"></div>
 
-                                                    <div class="form-group">
-												        <div class="col-sm-8 col-sm-offset-2">
-													        <button class="btn btn-primary" name="submit" type="submit" style="margin-top:4%">Save changes</button>
-												        </div>
+											    <div class="form-group">
+											        <label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
+											        <div class="col-sm-4">
+											        	<select class="formselect" name="category" required>
+											        		<option value="<?php echo htmlentities($result->cid)?>"><?php echo htmlentities($catname = $result->CategoryName);?></option>
+											        		<?php 
+											        		# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
+											        		$ret = "select id, CategoryName from tblcategory";
+											        		$query = $dbh->prepare($ret);
+											        		$query->execute();
+											        		$resultss = $query->fetchAll(PDO::FETCH_OBJ);
+											        		if ($query->rowCount()>0){
+											        			foreach ($resultss as $results){ 
+											    					if ($results->CategoryName == $catname){
+											    						continue;
+											    					} else {?>
+                                                                        <option value="<?php echo htmlentities($results->id)?>"><?php echo htmlentities($results->CategoryName);?></option>
+											    					<?php }
+											        			}
+											        		} ?>
+											        	</select>
 											        </div>
-    
-											    
-                                                <?php
-                                                }
+        
+											        <label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
+											        <div class="col-sm-4">
+											        	<select class="formselect" name="subcategory" required>
+														<option value="<?php echo htmlentities($result->scid)?>"><?php echo htmlentities($subcatname = $result->subCategoryName);?></option>
+											        		<?php 
+											        		# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
+											        		$ret2 = "select id, subCategoryName from tblsubcategory";
+											        		$query = $dbh->prepare($ret2);
+											        		$query->execute();
+											        		$resultsss = $query->fetchAll(PDO::FETCH_OBJ);
+											        		if ($query->rowCount()>0){
+											        			foreach ($resultsss as $resultss){ 
+											    					if ($resultss->subCategoryName == $subcatname){
+											    						continue;
+											    					} else {?>
+                                                                        <option value="<?php echo htmlentities($resultss->id)?>"><?php echo htmlentities($resultss->subCategoryName);?></option>
+											    					<?php }
+											        			}
+											        		} ?>
+											        	</select>
+											        </div>
+												</div>
+
+											    <div class="hr-dashed"></div>
+
+												<div class="form-group">
+													<label class="col-sm-2 control-label">Product Description<span style="color:red">*</span></label>
+													<div class="col-sm-10">
+														<textarea class="form-control" name="productdescription" rows="3" required><?php echo htmlentities($result->Description); ?></textarea>
+													</div>
+												</div>
+												<div class="hr-dashed"></div>
+
+											    <div class="form-group">
+											        <label class="col-sm-2 control-label">Pack<span style="color: red;">*</span></label>
+											    	<div class="col-sm-4">
+											    		<input type="text" name="pack" class="form-control" value="<?php echo htmlentities($result->Pack); ?>" required>
+											    	</div>
+											    </div>
+
+											    <div class="hr-dashed"></div>
+        
+											    <div class="form-group">
+											    	<div class="col-sm-12">
+											    		<h4><b>Product Images</b></h4>
+											    	</div>
+											    </div>
+
+											    <div class="form-group">
+                                                    <div class="col-sm-4">
+											    		Image 1 <img src="img/productimages/<?php echo htmlentities($result->Image1); ?>" width="300" height="300" style="border:solid 1px #d9d2d2">
+											    		<a href="changeimage1.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 1</a>
+											    	</div>
+											    	<div class="col-sm-4">
+											    		Image 2<img src="img/productimages/<?php echo htmlentities($result->Image2); ?>" width="300" height="300" style="border:solid 1px #d9d2d2">
+											    		<a href="changeimage2.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 2</a>
+											    	</div>
+											    	<div class="col-sm-4">
+											    		Image 3<img src="img/productimages/<?php echo htmlentities($result->Image3); ?>" width="300" height="300" style="border:solid 1px #d9d2d2">
+											    		<a href="changeimage3.php?imgid=<?php echo htmlentities($result->id) ?>">Change Image 3</a>
+											    	</div>
+											    </div>
+        
+											    <div class="form-group">
+											    	<div class="col-sm-4">
+											    		Image 4<img src="img/productimages/<?php echo htmlentities($result->DetImage); ?>" width="300" height="800" style="border:solid 1px #d9d2d2">
+											    		<a href="changedetailimage.php?imgid=<?php echo htmlentities($result->id) ?>">Change Description Image</a>
+											    	</div>
+											    </div>
+                                                
+											    <div class="hr-dashed"></div>
+                                                <div class="form-group">
+											        <div class="col-sm-8 col-sm-offset-2" style="text-align:center; margin-bottom: 30px;">
+											            <button class="btn btn-primary" name="submit" type="submit">Save changes</button>
+											        </div>
+											    </div>
+                                            </form>
+											<?php }
                                             }
                                             ?>
-                                            </form>
 										</div>
                                     </div>
                                 </div>

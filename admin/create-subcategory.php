@@ -11,7 +11,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     if (isset($_POST['subcategory'])) {
         $category = $_POST['category'];
         $subcategory = $_POST['subcategory'];
-        $sql = "INSERT INTO  tblsubcategory(SubCategory, Category) VALUES(:subcategory,:category)";
+        $sql = "INSERT INTO  tblsubcategory(subCategoryName, Category) VALUES(:subcategory,:category)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':subcategory', $subcategory, PDO::PARAM_STR);
         $query->bindParam(':category', $category, PDO::PARAM_STR);

@@ -95,6 +95,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>PartNo</th>
 												<th>Product Name</th>
                                                 <th>Category</th>
+												<th>SubCategory</th>
 												<th>Description</th>
                                                 <th>Added On</th>
 												<th>Action</th>
@@ -106,6 +107,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>PartNo</th>
 												<th>Product Name</th>
                                                 <th>Category</th>
+												<th>SubCategory</th>
 												<th>Description</th>
                                                 <th>Added On</th>
 												<th>Action</th>
@@ -113,7 +115,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 											</tr>
 										</tfoot>
 										<tbody>
-											<?php $sql = "SELECT * from  tblproducts join tblcategory on tblcategory.id = tblproducts.Category";
+											<?php $sql = "SELECT tblproducts.id,tblproducts.PartNo,tblproducts.ProductName,tblproducts.Category,tblproducts.SubCategory,
+											              tblproducts.Description,tblproducts.CreatedOn,tblcategory.id as cid,tblcategory.CategoryName,tblsubcategory.id as scid,
+														  tblsubcategory.subCategoryName from  tblproducts 
+														  join tblcategory on tblcategory.id = tblproducts.Category 
+														  join tblsubcategory on tblsubcategory.id=tblproducts.SubCategory";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -125,11 +131,12 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<td><?php echo htmlentities($result->PartNo); ?></td>
                                                 <td><?php echo htmlentities($result->ProductName); ?></td>
                                                 <td><?php echo htmlentities($result->CategoryName); ?></td>
+												<td><?php echo htmlentities($result->subCategoryName); ?></td>
 												<td><?php echo htmlentities($result->Description); ?></td>
                                                 <td><?php echo htmlentities($result->CreatedOn); ?></td>
 												<td>
-													<a href="edit-product.php?id=<?php echo $result->id; ?>" class="btn btn-primary">Edit</a>&nbsp;&nbsp;
-													<a href="manage-product.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this product?');" class="btn btn-primary" style="background-color: #e53131;">Delete</a>
+													<a href="edit-product.php?id=<?php echo $result->id; ?>" class="btn btn-primary" style="line-height: 10px;">Edit</a>&nbsp;&nbsp;
+													<a href="manage-product.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this product?');" class="btn btn-primary" style="background-color: #e53131;line-height: 10px">Delete</a>
 												</td>
 											</tr>
 											<?php $cnt = $cnt + 1;

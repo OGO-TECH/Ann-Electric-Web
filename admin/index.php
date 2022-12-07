@@ -2,11 +2,11 @@
 session_start();
 include('includes/config.php');
 
-# Admin set new password upon new login with default password. 
+# Validate login credentials. If pass = admin, change password. 
 
 if (isset($_POST['login'])) {
 	$username = $_POST['username'];
-	$password = md5($_POST['password']);
+	$password = md5($_POST['password']);//hash paswword.
 	$sql = "SELECT UserName,Password FROM tbladmin WHERE UserName=:username and Password=:password";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':username', $username, PDO::PARAM_STR);
@@ -37,6 +37,8 @@ if (isset($_POST['login'])) {
 	<meta name="author" content="Geofrey Obara">
 
 	<title>annelectric | Admin Login</title>
+
+	<!-- Stylesheets -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
