@@ -1,3 +1,5 @@
+<?php include('includes/config.php');?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -65,8 +67,20 @@
                 <ul class="nav">
                     <li><a href="#"></a>
                         <ul>
+                            <?php
+                            $sql = "SELECT * from tblcategory";
+                            $query = $dbh->prepare($sql);
+                            $query->execute();
+                            $results = $query->fetchAll(PDO::FETCH_OBJ);
+                            $cnt = 1;
 
-                            <li><a href="product/84.html">Switches&Sockets</a>
+                            if($query->rowCount()>0){
+                                foreach ($results as $result){?>
+                                    <li><a href="#"><?php echo htmlentities($result->CategoryName);?></a></li>
+                               <?php }
+                            }
+                            ?>
+                            <!--<li><a href="product/84.html">Switches&Sockets</a>
                                 <ul>
                                     <li><a href="product/108.html">Luxury Range</a></li>
                                     <li><a href="product/107.html">MG Range</a></li>
@@ -85,16 +99,16 @@
                                     <li><a href="product/116.html">Duro Range</a></li>
                                     <li><a href="product/115.html">Metal Clad</a></li>
                                 </ul>
-                            </li>
+                            </li>-->
 
-                            <li><a href="product/85.html">Lampholder</a>
+                            <!--<li><a href="product/85.html">Lampholder</a>
                                 <ul>
                                     <li><a href="product/110.html">Drop</a></li>
                                     <li><a href="product/111.html">Straight</a></li>
                                     <li><a href="product/112.html">Angled</a></li>
                                 </ul>
-                            </li>
-
+                            </li>-->
+                            <!--
                             <li><a href="product/86.html">Doorbell</a></li>
                             <li><a href="product/87.html">Automatic Voltage Switcher</a></li>
                             <li><a href="product/88.html">Ceiling Rose</a></li>
@@ -106,7 +120,7 @@
                             <li><a href="product/97.html">Distribution box</a></li>
                             <li><a href="product/113.html">Junction Box</a></li>
                             <li><a href="product/118.html">Others</a></li>
-                            <li><a href="product/114.html">LED Bulb</a> </li>
+                            <li><a href="product/114.html">LED Bulb</a> </li>-->
                         </ul>
                     </li>
                 </ul>
@@ -120,15 +134,11 @@
                 </dl>
                 <dl class="index_pic">
                     <dt><img src="assets/templates/youda/images/pic_01.png"></dt>
-                    <dd>
-                        <h2>About Us</h2><a href="about/about-82.html"></a>
-                    </dd>
+                    <dd><h2>About Us</h2><a href="about/about-82.html"></a></dd>
                 </dl>
                 <dl class="index_pic">
                     <dt><img src="assets/templates/youda/images/pic_02.png"></dt>
-                    <dd>
-                        <h2>Contact us</h2><a href="contact.html"></a>
-                    </dd>
+                    <dd><h2>Contact us</h2><a href="contact.html"></a></dd>
                 </dl>
             </div>
         </div>
@@ -146,22 +156,18 @@
                         <dt>COMPANY PROFILE</dt>
                         <dd class="index_about_word">
                             <p>
-                                Ann Electric is a specialized enterprise in researching, manufacturing and sale electrical products located in Binhai area,Wenzhou Economic-Technological Development Zone.We are the member of China Mechanical and electrical products import and export chamber of commerce; A-level management enterprise in Chinese Customs' List of reputation management .Our goods has been exported to more than 20 countries and regions in ASEAN,Africa,Europe and middle east.Our brand "MG" won good reputation in the related market.
+                                Ann Electric is a specialized enterprise in researching, 
+                                manufacturing and sale electrical products located in Binhai area,Wenzhou Economic-Technological Development Zone.
+                                We are the member of China Mechanical and electrical products import and export chamber of commerce; 
+                                A-level management enterprise in Chinese Customs' List of reputation management.
+                                Our goods has been exported to more than 20 countries and regions in ASEAN,Africa,Europe and middle east.
+                                Our brand "MG" won good reputation in the related market.
                             </p>
-                            <p>
-                                Our high quality research,management and technical team are oriented to comprehensive quality management.By strictly carrying out standards of ISO9001:2008 international quality management system and 5S management,our goods various technical performance indexes meet the requirement of domestic and international standards. We obtain SONCAP,TBS,CE certificate for product access qualification certificate. In 2013 we obtain a patent for electric products package design awarded by China's State Intellectual Property Office.In 2014,it won Utility Model Patent Certificate.Our aboratory room under construction would be the most perfect one in the line of electrical accessories used in civil architecture.
-                            </p>
-                            <p>
-                                <img alt="" src="assets/upload/201610/22/201610220849224922.png">
-                            </p>
-                            <p>
-                                We have developed more than 10 series (200 specifications )switch and sockets;more than 100 specifications of lamp holder and junction box;also related products including ventilator,insulating tape,LED light, energy saving lamp, knife switch,extension socket,breakers and consumer unit etc.And annual foreign exchange earnings reaches to more than $7 million. And we offer One-Stop Service for solution of engineering and household electric.
-                            </p>
-                            <p>
-                                With the tenet of reasonable price,effective production time and good After-sales service and policy of unity ,Diligence,objectivity,innovation we can offer the best quality products and perfect service.<img alt="" src="upload/201611/08/201611081541164986.jpg"><img alt="" src="upload/201611/08/201611081541324536.jpg"><img alt="" src="upload/201611/08/201611081541402982.jpg">
-                            </p>
+
+                            <p><img alt="" src="assets/upload/201610/22/201610220849224922.png"></p>
+                            
                         </dd>
-                        <dd class="index_about_btn"><a href="about/about-82.html">MORE</a></dd>
+                        <dd class="index_about_btn"><a href="about.php">MORE</a></dd>
                     </dl>
                 </div>
             </div>
@@ -248,8 +254,10 @@
                             <dd>2-4 Way Distribution Box</dd>
                         </a>
                     </dl>
+
                     <!--/Products display-->
-                    <a href="product.html" class="index_product_btn">MORE</a>
+
+                    <a href="product.php" class="index_product_btn">MORE</a>
                     
                 </div>
 
