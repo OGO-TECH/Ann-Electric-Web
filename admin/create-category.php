@@ -9,9 +9,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 	# Assign form data on brands to variables. Insert to database tblbrands. 
 	if (isset($_POST['category'])) {
 		$category = $_POST['category'];
-		$sql = "INSERT INTO  tblcategory(CategoryName) VALUES(:category)";
+		$parentid = 0;
+		$sql = "INSERT INTO  category(CategoryName, Parent_Id) VALUES(:category,:parentid)";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':category', $category, PDO::PARAM_STR);
+		$query->bindParam(':parentid', $parentid, PDO::PARAM_STR);
 		$query->execute();
 		$lastInsertId = $dbh->lastInsertId();
 		if ($lastInsertId) {

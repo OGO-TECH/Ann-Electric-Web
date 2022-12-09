@@ -9,12 +9,12 @@ if (strlen($_SESSION['alogin']) == 0) {
     # Assign form data to variables. Insert to tblsubcategory. 
 
     if (isset($_POST['subcategory'])) {
-        $category = $_POST['category'];
-        $subcategory = $_POST['subcategory'];
-        $sql = "INSERT INTO  tblsubcategory(subCategoryName, Category) VALUES(:subcategory,:category)";
+        $parentid = $_POST['category'];
+        $category = $_POST['subcategory'];
+        $sql = "INSERT INTO  category(CategoryName, Parent_Id) VALUES(:category,:parentid)";
         $query = $dbh->prepare($sql);
-        $query->bindParam(':subcategory', $subcategory, PDO::PARAM_STR);
         $query->bindParam(':category', $category, PDO::PARAM_STR);
+        $query->bindParam(':parentid', $parentid, PDO::PARAM_STR);
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
         if ($lastInsertId) {
@@ -110,7 +110,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                     <div class="col-sm-8">
                                                         <select class="formselect" name="category" required>
                                                             <option value=""> Select </option>
-                                                            <?php $ret = "select id,CategoryName from tblcategory";
+                                                            <?php 
+                                                            $ret = "SELECT id,Parent_Id,CategoryName from category where Parent_Id = 0";
                                                             $query = $dbh->prepare($ret);
                                                             # $query->bindParam(':id',$id, PDO::PARAM_STR);
                                                             $query->execute();

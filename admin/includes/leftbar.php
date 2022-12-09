@@ -10,7 +10,7 @@
 				</ul>
 			</li>
 
-			<li><a href="create-subcategory.php"><i class="fa fa-files-o"></i>Sub-category</a></li>
+			<li><a href="create-subcategory.php"><i class="fa fa-files-o"></i>Create Sub-category</a></li>
 
 			<li><a href="#"><i class="fa fa-sitemap"></i>Products</a>
 				<ul>

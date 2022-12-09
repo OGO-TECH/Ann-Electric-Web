@@ -56,7 +56,7 @@
         
         <div class="flexslider">
             <ul class="slides">
-                <li style="background:url(assets/upload/201611/10/201611101654583888.png) 50% 0 no-repeat;">
+                <li style="background:url(assets/templates/youda/images/201611101654583888.png) 50% 0 no-repeat;">
                     <a href="javascript:void(0);"></a>
                 </li>
             </ul>
@@ -68,7 +68,7 @@
                     <li><a href="#"></a>
                         <ul>
                             <?php
-                            $sql = "SELECT * from tblcategory";
+                            $sql = "SELECT * from category where parent_id=0;";
                             $query = $dbh->prepare($sql);
                             $query->execute();
                             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -76,51 +76,25 @@
 
                             if($query->rowCount()>0){
                                 foreach ($results as $result){?>
-                                    <li><a href="#"><?php echo htmlentities($result->CategoryName);?></a></li>
+                                    <li><a href="#"><?php echo htmlentities($result->CategoryName);?></a>
+                                        <ul>
+                                        <?php
+                                        $catid = $result->id;
+                                        $subcategory = $dbh->prepare('SELECT * from category where parent_id = ?');
+                                        $subcategory->execute([$catid]);
+                                        $children = $subcategory->fetchAll(PDO::FETCH_OBJ);
+    
+                                        if($subcategory->rowCount()>0){
+                                            foreach($children as $child){?>
+                                                <li><a href="#"><?php echo ($child->CategoryName);?></a></li>
+                                            <?php }
+                                        } ?>
+                                        </ul>
+                                    </li>
                                <?php }
                             }
                             ?>
-                            <!--<li><a href="product/84.html">Switches&Sockets</a>
-                                <ul>
-                                    <li><a href="product/108.html">Luxury Range</a></li>
-                                    <li><a href="product/107.html">MG Range</a></li>
-                                    <li><a href="product/105.html">Ivory Range</a></li>
-                                    <li><a href="product/98.html">Alpha Range</a></li>
-                                    <li><a href="product/100.html">Lavina Range</a></li>
-                                    <li><a href="product/104.html">Legend E Range</a></li>
-                                    <li><a href="product/103.html">Elegance Range</a></li>
-                                    <li><a href="product/106.html">Legend-1 Range</a></li>
-                                    <li><a href="product/101.html">Busch Range</a></li>
-                                    <li><a href="product/102.html">Classy Range</a></li>
-                                    <li><a href="product/99.html">Aura Range</a></li>
-                                    <li><a href="product/109.html">Unique Range</a></li>
-                                    <li><a href="product/117.html">Sonia Range</a></li>
-                                    <li><a href="product/119.html">Ultraflat range</a></li>
-                                    <li><a href="product/116.html">Duro Range</a></li>
-                                    <li><a href="product/115.html">Metal Clad</a></li>
-                                </ul>
-                            </li>-->
-
-                            <!--<li><a href="product/85.html">Lampholder</a>
-                                <ul>
-                                    <li><a href="product/110.html">Drop</a></li>
-                                    <li><a href="product/111.html">Straight</a></li>
-                                    <li><a href="product/112.html">Angled</a></li>
-                                </ul>
-                            </li>-->
-                            <!--
-                            <li><a href="product/86.html">Doorbell</a></li>
-                            <li><a href="product/87.html">Automatic Voltage Switcher</a></li>
-                            <li><a href="product/88.html">Ceiling Rose</a></li>
-                            <li><a href="product/89.html">Mounting box</a></li>
-                            <li><a href="product/92.html">Plug/Adaptor</a></li>
-                            <li><a href="product/93.html">Extension</a></li>
-                            <li><a href="product/94.html">Circuit breaker</a></li>
-                            <li><a href="product/96.html">Change over switch</a></li>
-                            <li><a href="product/97.html">Distribution box</a></li>
-                            <li><a href="product/113.html">Junction Box</a></li>
-                            <li><a href="product/118.html">Others</a></li>
-                            <li><a href="product/114.html">LED Bulb</a> </li>-->
+                            
                         </ul>
                     </li>
                 </ul>
@@ -134,11 +108,11 @@
                 </dl>
                 <dl class="index_pic">
                     <dt><img src="assets/templates/youda/images/pic_01.png"></dt>
-                    <dd><h2>About Us</h2><a href="about/about-82.html"></a></dd>
+                    <dd><h2>About Us</h2><a href="about.php"></a></dd>
                 </dl>
                 <dl class="index_pic">
                     <dt><img src="assets/templates/youda/images/pic_02.png"></dt>
-                    <dd><h2>Contact us</h2><a href="contact.html"></a></dd>
+                    <dd><h2>Contact us</h2><a href="contact.php"></a></dd>
                 </dl>
             </div>
         </div>
@@ -183,77 +157,27 @@
 
                     <!--Products Display-->
 
-                    <dl style="margin-left:0px;">
-                        <a href="showproduct/show-1022.html">
-                            <dt>
-                                <p><img src="assets/upload/201902/18/201902181339584050.jpg"></p>
-                            </dt>
-                            <dd>1 gang switch with metal b…</dd>
-                        </a>
-                    </dl>
+                    <?php
+                    $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.Image1 from tblproducts";
+                    $query = $dbh->prepare($sql);
+                    $query->execute();
+                    $results = $query->fetchAll(PDO::FETCH_OBJ);
+                    $cnt = 1;
+                    if ($query->rowCount() > 0) {
+                        foreach ($results as $result) {?>
 
-                    <dl>
-                        <a href="showproduct/show-1020.html">
-                            <dt>
-                                <p><img src="assets/upload/201902/18/201902181138537426.jpg"></p>
-                            </dt>
-                            <dd>13A adaptor</dd>
-                        </a>
-                    </dl>
+                        <dl>
+                            <a href="showproduct.php?id=<?php echo htmlentities($result->id);?>">
+                                <dt>
+                                    <p><img src="admin/img/productimages/<?php echo htmlentities($result->Image1);?>"></p>
+                                </dt>
+                                <dd><?php echo htmlentities($result->ProductName);?></dd>
+                            </a>
+                        </dl>
 
-                    <dl>
-                        <a href="showproduct/show-992.html">
-                            <dt>
-                                <p><img src="assets/upload/201902/18/201902180929179385.jpg"></p>
-                            </dt>
-                            <dd>1 gang switch</dd>
-                        </a>
-                    </dl>
-
-                    <dl>
-                        <a href="showproduct/show-634.html">
-                            <dt>
-                                <p><img src="assets/upload/201611/07/201611071141335212.jpg"></p>
-                            </dt>
-                            <dd>1 gang switch</dd>
-                        </a>
-                    </dl>
-
-                    <dl style="margin-left:0px;">
-                        <a href="showproduct/show-596.html">
-                            <dt>
-                                <p><img src="assets/upload/201611/02/201611021503301590.jpg"></p>
-                            </dt>
-                            <dd>B22 straight lampholder</dd>
-                        </a>
-                    </dl>
-
-                    <dl>
-                        <a href="showproduct/show-536.html">
-                            <dt>
-                                <p><img src="assets/upload/201611/05/201611050906231958.png"></p>
-                            </dt>
-                            <dd>1 gang switch</dd>
-                        </a>
-                    </dl>
-
-                    <dl>
-                        <a href="showproduct/show-668.html">
-                            <dt>
-                                <p><img src="assets/upload/201701/05/201701051525599012.jpg"></p>
-                            </dt>
-                            <dd>13A switched socket</dd>
-                        </a>
-                    </dl>
-
-                    <dl>
-                        <a href="showproduct/show-712.html">
-                            <dt>
-                                <p><img src="assets/upload/201611/12/201611120929492904.jpg"></p>
-                            </dt>
-                            <dd>2-4 Way Distribution Box</dd>
-                        </a>
-                    </dl>
+                        <?php }
+                    }
+                    ?>
 
                     <!--/Products display-->
 
