@@ -56,7 +56,7 @@
 
     <div class="clear"></div>
     <!--/Header-->
-    <div class="pic_box"><img src="templates/youda/images/pic_09.png"></div>
+    <div class="pic_box"><img src="assets/templates/youda/images/pic_09.png"></div>
     <div class="content">
       <div class="center">
         <div class="title_box">
@@ -93,7 +93,7 @@
       <img height="1" width="1" style="border-style:none;" alt="" src="pagead/viewthroughconversion/871990639/index.htm.gif?guid=ON&amp;script=0">
     </div>
   </noscript>
-  
+
 </body>
 <script>
   $(document).ready(function() {

@@ -91,121 +91,62 @@
                 <div class="product" id="clicktab">
                     <div class="product_nav">
 
-                        <dl>
-                            <dt><a href="javascript:;" class="flip">Switches&amp;Sockets</a></dt>
-                            <dd class="panel">
-                                <a href="product/108.html">— Luxury Range</a>
-                                <a href="product/107.html">— MG Range</a>
-                                <a href="product/105.html">— Ivory Range</a>
-                                <a href="product/98.html">— Alpha Range</a>
-                                <a href="product/100.html">— Lavina Range</a>
-                                <a href="product/104.html">— Legend E Range</a>
-                                <a href="product/103.html">— Elegance Range</a>
-                                <a href="product/106.html">— Legend-1 Range</a>
-                                <a href="product/101.html">— Busch Range</a>
-                                <a href="product/102.html">— Classy Range</a>
-                                <a href="product/99.html">— Aura Range</a>
-                                <a href="product/109.html">— Unique Range</a>
-                                <a href="product/117.html">— Sonia Range</a>
-                                <a href="product/119.html">— Ultraflat range</a>
-                                <a href="product/116.html">— Duro Range</a>
-                                <a href="product/115.html">— Metal Clad</a>
-                            </dd>
-                        </dl>
+                        <?php
+                        $sql = "SELECT * from category where parent_id=0;";
+                        $query = $dbh->prepare($sql);
+                        $query->execute();
+                        $results = $query->fetchAll(PDO::FETCH_OBJ);
+                        $cnt = 1;
+                        if($query->rowCount()>0){
+                            foreach ($results as $result){?>
+                                <dl>
+                                    <dt><a href="javascript:;" class="flip"><?php echo htmlentities($result->CategoryName);?></a></dt>
+                                    <dd class="panel">
+                                    <?php
+                                    $catid = $result->id;
+                                    $subcategory = $dbh->prepare('SELECT * from category where parent_id = ?');
+                                    $subcategory->execute([$catid]);
+                                    $children = $subcategory->fetchAll(PDO::FETCH_OBJ);
 
-                        <dl>
-                            <dt><a href="javascript:;" class="flip">Lampholder</a></dt>
-                            <dd class="panel">
-                                <a href="product/110.html">— Drop</a>
-                                <a href="product/111.html">— Straight</a>
-                                <a href="product/112.html">— Angled</a>
-                            </dd>
-                        </dl>
-
-                        <dl><dt><a href="product/86.html">Doorbell</a></dt></dl>
-                        <dl><dt><a href="product/87.html">Automatic Voltage Switcher</a></dt></dl>
-                        <dl><dt><a href="product/88.html">Ceiling Rose</a></dt></dl>
-                        <dl><dt><a href="product/89.html">Mounting box</a></dt></dl>
-                        <dl><dt><a href="product/92.html">Plug/Adaptor</a></dt></dl>
-                        <dl><dt><a href="product/93.html">Extension</a></dt></dl>
-                        <dl><dt><a href="product/94.html">Circuit breaker</a></dt></dl>
-                        <dl><dt><a href="product/96.html">Change over switch</a></dt></dl>
-                        <dl><dt><a href="product/97.html">Distribution box</a></dt></dl>
-                        <dl><dt><a href="product/113.html">Junction Box</a></dt> </dl>
-                        <dl><dt><a href="product/118.html">Others</a></dt></dl>
-                        <dl><dt><a href="product/114.html">LED Bulb</a></dt></dl>
-
-
+                                    if($subcategory->rowCount()>0){
+                                        foreach($children as $child){?>
+                                            <a href="#"> — <?php echo ($child->CategoryName);?></a>
+                                        <?php }
+                                    } ?>
+                                    </dd>
+                                </dl>
+                           <?php }
+                        }
+                        ?>
                     </div>
+
                     <div class="product_right">
                         <div class="product_list">
                             <!--DataTable-->
 
-                            <dl>
-                                <a href="showproduct/show-1022.html">
-                                    <dt><p><img src="upload/201902/18/201902181339584050.jpg"></p></dt>
-                                    <dd>1 gang switch with metal b…</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-1021.html">
-                                    <dt><p><img src="upload/201902/18/201902181328467643.jpg"></p></dt>
-                                    <dd>UK/US/EU Wifi-socket plug</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-1020.html">
-                                    <dt><p><img src="upload/201902/18/201902181138537426.jpg"></p></dt>
-                                    <dd>13A adaptor</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-992.html">
-                                    <dt><p><img src="upload/201902/18/201902180929179385.jpg"></p></dt>
-                                    <dd>1 gang switch</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-950.html">
-                                    <dt><p><img src="upload/201704/20/201704200852485472.jpg"></p></dt>
-                                    <dd>1 gang switch</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-937.html">
-                                    <dt><p><img src="upload/201704/19/201704190958323480.jpg"></p></dt>
-                                    <dd>1 gang switch</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-913.html">
-                                    <dt><p><img src="upload/201708/13/201708131017222094.png"></p></dt>
-                                    <dd>DIN Size Cabinets</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-889.html">
-                                    <dt><p><img src="upload/201706/20/201706201440397256.png"></p></dt>
-                                    <dd>LED Bulb 5W</dd>
-                                </a>
-                            </dl>
-
-                            <dl>
-                                <a href="showproduct/show-844.html">
-                                    <dt><p><img src="upload/201611/19/201611191329437200.jpg"></p></dt>
-                                    <dd>13A Fused plug</dd>
-                                </a>
-                            </dl>
+                            <?php
+                            $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.Image1 from tblproducts";
+                            $query = $dbh->prepare($sql);
+                            $query->execute();
+                            $results = $query->fetchAll(PDO::FETCH_OBJ);
+                            $cnt = 1;
+                            if ($query->rowCount() > 0) {
+                                foreach ($results as $result) {?>
+        
+                                <dl>
+                                    <a href="showproduct.php?id=<?php echo htmlentities($result->id);?>">
+                                        <dt>
+                                            <p><img src="admin/img/productimages/<?php echo htmlentities($result->Image1);?>"></p>
+                                        </dt>
+                                        <dd><?php echo htmlentities($result->ProductName);?></dd>
+                                    </a>
+                                </dl>
+        
+                                <?php }
+                            }
+                            ?>
 
                             <div class="clear"></div>
-
                         </div>
 
                         <div class="clear"></div>

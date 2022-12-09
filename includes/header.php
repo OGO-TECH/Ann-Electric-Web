@@ -10,7 +10,7 @@
                     
                     <ul>
                         <?php
-                        $sql = "SELECT * from tblcategory";
+                        $sql = "SELECT * from category where parent_id = 0;";
                         $query = $dbh->prepare($sql);
                         $query->execute();
                         $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -18,39 +18,25 @@
     
                         if($query->rowCount()>0){
                             foreach ($results as $result){?>
-                                <li><a href="#"><?php echo htmlentities($result->CategoryName);?></a></li>
+                                <li><a href="#"><?php echo htmlentities($result->CategoryName);?></a>
+                                    <ul>
+                                    <?php
+                                    $catid = $result->id;
+                                    $subcategory = $dbh->prepare('SELECT * from category where parent_id = ?');
+                                    $subcategory->execute([$catid]);
+                                    $children = $subcategory->fetchAll(PDO::FETCH_OBJ);
+
+                                    if($subcategory->rowCount()>0){
+                                        foreach($children as $child){?>
+                                            <li><a href="#"><?php echo ($child->CategoryName);?></a></li>
+                                        <?php }
+                                    } ?>
+                                    </ul>
+                                </li>
                            <?php }
                         }
-                        
-                        ?>  <!--
-                        <li> <a href="product/84.html">Switches&Sockets</a>
-                            <ul>
-                                <li><a href="product/107.html">Luxury Range</a></li>
-                                <li><a href="product/107.html">MG Range</a></li>
-                                <li><a href="product/105.html">Ivory Range</a></li>
-                                <li><a href="product/98.html">Alpha Range</a></li>
-                                <li><a href="product/100.html">Lavina Range</a></li>
-                                <li><a href="product/104.html">Legend E Range</a></li>
-                                <li><a href="product/103.html">Elegance Range</a></li>
-                                <li><a href="product/106.html">Legend-1 Range</a></li>
-                                <li><a href="product/101.html">Busch Range</a></li>
-                                <li><a href="product/102.html">Classy Range</a></li>
-                                <li><a href="product/99.html">Aura Range</a></li>
-                                <li><a href="product/109.html">Unique Range</a></li>
-                                <li><a href="product/117.html">Sonia Range</a></li>
-                                <li><a href="product/119.html">Ultraflat range</a></li>
-                                <li><a href="product/116.html">Duro Range</a></li>
-                                <li><a href="product/115.html">Metal Clad</a></li>
-                            </ul>
-                        </li>
-
-                        <li> <a href="product/85.html">Lampholder</a>
-                            <ul>
-                                <li><a href="product/110.html">Drop</a></li>
-                                <li><a href="product/111.html">Straight</a></li>
-                                <li><a href="product/112.html">Angled</a></li>
-                            </ul>
-                        </li>-->
+                        ?> 
+                       
                     </ul>
                 </li>
                 <li><a href="contact.php" class="selected_e">CONTACT US</a></li>

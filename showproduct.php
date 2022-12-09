@@ -58,8 +58,8 @@
                 </div>
                 <div class="product">
                     <?php
-                    $id = 1 ;#intval($_GET['id'])
-                    $sql = "SELECT * FROM tblproducts WHERE id=:id";
+                    $id = intval($_GET['id']);
+                    $sql = "SELECT tblproducts.*, category.CategoryName, category.id FROM tblproducts join category on tblproducts.Category = category.id WHERE tblproducts.id=:id";
                     $query = $dbh->prepare($sql);
                     $query->bindParam(':id',$id,PDO::PARAM_STR);
                     $query->execute();
@@ -102,7 +102,7 @@
                                 <div class="product_canshu">
                                     <p>Part No: <?php echo htmlentities($result->PartNo);?></p>
                                     <p>Product Name: <?php echo htmlentities($result->ProductName);?></p>
-                                    <p>Categoy: <?php echo htmlentities($result->Category);?></p>
+                                    <p>Category: <?php echo htmlentities($result->CategoryName);?></p>
                                     <p>Description:<?php echo htmlentities($result->Description);?></p>
                                     <p>Pack:<?php echo htmlentities($result->Pack);?></p>
                                 </div>

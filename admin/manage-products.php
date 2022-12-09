@@ -95,7 +95,6 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>PartNo</th>
 												<th>Product Name</th>
                                                 <th>Category</th>
-												<th>SubCategory</th>
 												<th>Description</th>
                                                 <th>Added On</th>
 												<th>Action</th>
@@ -107,7 +106,6 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>PartNo</th>
 												<th>Product Name</th>
                                                 <th>Category</th>
-												<th>SubCategory</th>
 												<th>Description</th>
                                                 <th>Added On</th>
 												<th>Action</th>
@@ -116,10 +114,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 										</tfoot>
 										<tbody>
 											<?php $sql = "SELECT tblproducts.id,tblproducts.PartNo,tblproducts.ProductName,tblproducts.Category,tblproducts.SubCategory,
-											              tblproducts.Description,tblproducts.CreatedOn,tblcategory.id as cid,tblcategory.CategoryName,tblsubcategory.id as scid,
-														  tblsubcategory.subCategoryName from  tblproducts 
-														  join tblcategory on tblcategory.id = tblproducts.Category 
-														  join tblsubcategory on tblsubcategory.id=tblproducts.SubCategory";
+											              tblproducts.Description,tblproducts.CreatedOn,category.id as cid,category.CategoryName,category.parent_id as scid
+														  from  tblproducts 
+														  join category on category.id = tblproducts.Category;";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -131,7 +128,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<td><?php echo htmlentities($result->PartNo); ?></td>
                                                 <td><?php echo htmlentities($result->ProductName); ?></td>
                                                 <td><?php echo htmlentities($result->CategoryName); ?></td>
-												<td><?php echo htmlentities($result->subCategoryName); ?></td>
 												<td><?php echo htmlentities($result->Description); ?></td>
                                                 <td><?php echo htmlentities($result->CreatedOn); ?></td>
 												<td>

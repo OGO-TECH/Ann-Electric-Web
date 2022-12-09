@@ -145,36 +145,34 @@ if (strlen($_SESSION['alogin']) == 0) {
 															<option value="">Select</option>
 															<?php
 															# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
-															$ret = "select id, CategoryName from tblcategory";
-															$query = $dbh->prepare($ret);
+															$categories = "SELECT id, parent_id, CategoryName from category where parent_id = 0";
+															$query = $dbh->prepare($categories);
 															$query->execute();
 															$results = $query->fetchAll(PDO::FETCH_OBJ);
 															if ($query->rowCount()>0){
 																foreach ($results as $result){ ?>
-																<option value="<?php echo htmlentities($result->id)?>" onchange=""><?php echo htmlentities($result->CategoryName);?></option>
+																<option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->CategoryName);?></option>
 																<?php 
-																$cat = ($result->CategoryName);
 																}
 															}
-															
 															?>
 														</select>
 													</div>
-
 													<label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
 													<div class="col-sm-4">
 														<select class="formselect" name="subcategory" required>
 															<option value="">Select</option>
 															<?php
-															$ret = "select id, SubCategory from tblsubcategory";
-															$query = $dbh->prepare($ret);
+															$subcategory = "SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id";
+															$query = $dbh->prepare($subcategory);
 															$query->execute();
 															$results = $query->fetchAll(PDO::FETCH_OBJ);
 															if ($query->rowCount()>0){
 																foreach ($results as $result){ ?>
-																<option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->SubCategory);?></option>
+																<option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->CategoryName);?></option>
 																<?php }
 															}
+														
 															?>
 														</select>
 													</div>
