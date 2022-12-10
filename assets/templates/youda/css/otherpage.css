@@ -126,7 +126,7 @@
 .show_product p img,.show_product img{width:500px;margin:0 auto;display: block;}
 
 
-.product_canshu{width:40%;float:right;min-height:300px;border:solid #eeeeee 1px;padding:20px;margin-top:30px;color: #999999; font-size: 16px; line-height: 32px;}
+.product_canshu{width:40%;float:right;min-height:300px;border-radius: 1%;border:solid #eeeeee 1px;padding:20px;margin-top:30px;color: #999999; font-size: 16px; line-height: 32px;}
 .product_canshu p{width:95%;margin:0 auto; color: #999999; font-size: 16px; line-height: 32px;text-indent:0;}
 
 

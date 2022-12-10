@@ -43,7 +43,7 @@
                 } else {
 
                     $(this).parent().css({
-                        "background": "url(/templates/youda/images/bg_08.png) no-repeat left center"
+                        "background": "url(assets/templates/youda/images/bg_08.png) no-repeat left center"
                     });
                     $(this).css({
                         "color": "#333333"
@@ -89,44 +89,19 @@
 
 
                 <div class="product" id="clicktab">
-                    <div class="product_nav">
 
-                        <?php
-                        $sql = "SELECT * from category where parent_id=0;";
-                        $query = $dbh->prepare($sql);
-                        $query->execute();
-                        $results = $query->fetchAll(PDO::FETCH_OBJ);
-                        $cnt = 1;
-                        if($query->rowCount()>0){
-                            foreach ($results as $result){?>
-                                <dl>
-                                    <dt><a href="javascript:;" class="flip"><?php echo htmlentities($result->CategoryName);?></a></dt>
-                                    <dd class="panel">
-                                    <?php
-                                    $catid = $result->id;
-                                    $subcategory = $dbh->prepare('SELECT * from category where parent_id = ?');
-                                    $subcategory->execute([$catid]);
-                                    $children = $subcategory->fetchAll(PDO::FETCH_OBJ);
-
-                                    if($subcategory->rowCount()>0){
-                                        foreach($children as $child){?>
-                                            <a href="#"> — <?php echo ($child->CategoryName);?></a>
-                                        <?php }
-                                    } ?>
-                                    </dd>
-                                </dl>
-                           <?php }
-                        }
-                        ?>
-                    </div>
+                    <?php include('includes/productnav.php'); ?>
 
                     <div class="product_right">
                         <div class="product_list">
                             <!--DataTable-->
 
                             <?php
-                            $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.Image1 from tblproducts";
+                            $scid = intval($_GET['scid']);
+                            $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.SubCategory,tblproducts.Image1
+                                    from tblproducts where tblproducts.SubCategory = :scid";
                             $query = $dbh->prepare($sql);
+                            $query->bindParam(':scid', $scid, PDO::PARAM_STR);
                             $query->execute();
                             $results = $query->fetchAll(PDO::FETCH_OBJ);
                             $cnt = 1;
@@ -143,7 +118,11 @@
                                 </dl>
         
                                 <?php }
-                            }
+                            } else {?>
+                                <div class="container">
+                                    <h1>Ooop! We ddnt find the products you specified. Try another search. </h1>
+                                </div>
+                            <?php }
                             ?>
 
                             <div class="clear"></div>
@@ -152,15 +131,7 @@
                         <div class="clear"></div>
 
                         <div class="pagelist">
-                            <a><<</a>
-                            <a><</a>
-                            <a class="selected">1</a>
-                            <a href="product/0/2.html">2</a>
-                            <a href="product/0/3.html">3</a>
-                            <a href="product/0/4.html">4</a>
-                            <span>...</span>
-                            <a href="product/0/52.html">></a>
-                            <a href="product/0/53.html">>></a>
+                            <?php include('includes/pagination.php')?>
                         </div>
 
                     </div>

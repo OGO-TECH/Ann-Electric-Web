@@ -30,6 +30,9 @@
             color: #fff !important;
             background: #0d6cac;
         }
+        .index_product dl:nth-child(4n+1){
+            margin-left: 0px;
+        }
     </style>
 
     <script type="text/javascript" charset="utf-8" src="assets/templates/youda/js/common.js"></script>
@@ -76,7 +79,7 @@
 
                             if($query->rowCount()>0){
                                 foreach ($results as $result){?>
-                                    <li><a href="#"><?php echo htmlentities($result->CategoryName);?></a>
+                                    <li><a href="categories.php?cid=<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->CategoryName);?></a>
                                         <ul>
                                         <?php
                                         $catid = $result->id;
@@ -86,7 +89,7 @@
     
                                         if($subcategory->rowCount()>0){
                                             foreach($children as $child){?>
-                                                <li><a href="#"><?php echo ($child->CategoryName);?></a></li>
+                                                <li><a href="subcategories.php?scid=<?php echo ($child->id);?>"><?php echo ($child->CategoryName);?></a></li>
                                             <?php }
                                         } ?>
                                         </ul>

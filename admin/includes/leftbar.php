@@ -20,6 +20,6 @@
 			</li>
 			<li><a href="manage-conactusquery.php"><i class="fa fa-desktop"></i>ContactUs Queries</a></li>
 			<li><a href="update-contactinfo.php"><i class="fa fa-files-o"></i>Update Contact Info</a></li>
-
+            <li><a href="#"><i class="fa fa-files-o"></i>Generate Reports</a></li>
 		</ul>
 	</nav>
