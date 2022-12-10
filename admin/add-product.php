@@ -204,13 +204,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 												<div class="form-group">
 													<div class="col-sm-4">
-														Image 1 <span style="color:red">*</span><input type="file" name="img1" required>
+														Image 1 <span style="color:red">*</span><input type="file" name="img1"required>
 													</div>
 													<div class="col-sm-4">
-														Image 2<span style="color:red">*</span><input type="file" name="img2" required>
+														Image 2<input type="file" name="img2">
 													</div>
 													<div class="col-sm-4">
-														Image 3<span style="color:red">*</span><input type="file" name="img3" required>
+														Image 3<input type="file" name="img3">
 													</div>
 												</div>
 
@@ -218,7 +218,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 												<div class="form-group">
 													<div class="col-sm-4">
-														Description Image<span style="color:red">*</span><input type="file" name="img4" required>
+														Description Image<input type="file" name="img4">
 													</div>
 												</div>
 
