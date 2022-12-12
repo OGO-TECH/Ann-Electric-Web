@@ -9,8 +9,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 	#Update tbladmin in password field with new password from form input.
 
 	if (isset($_POST['submit'])) {
-		$password = md5($_POST['password']);
-		$newpassword = md5($_POST['newpassword']);
+		$password = ($_POST['password']);
+		$newpassword = ($_POST['newpassword']);
 		$username = $_SESSION['alogin'];
 		$sql = "SELECT Password FROM tbladmin WHERE UserName=:username and Password=:password";
 		$query = $dbh->prepare($sql);

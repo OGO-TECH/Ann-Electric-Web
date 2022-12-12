@@ -6,7 +6,7 @@ include('includes/config.php');
 
 if (isset($_POST['login'])) {
 	$username = $_POST['username'];
-	$password = md5($_POST['password']);//hash paswword.
+	$password = ($_POST['password']);//hash paswword.
 	$sql = "SELECT UserName,Password FROM tbladmin WHERE UserName=:username and Password=:password";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':username', $username, PDO::PARAM_STR);
@@ -15,7 +15,7 @@ if (isset($_POST['login'])) {
 	$results = $query->fetchAll(PDO::FETCH_OBJ);
 	if ($query->rowCount() > 0) {
 		$_SESSION['alogin'] = $_POST['username'];
-		if($password == md5('admin')){
+		if($password == ('admin')){
 			echo "<script type='text/javascript'> document.location = 'change-password.php'; </script>";
 		}else{
 		echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";

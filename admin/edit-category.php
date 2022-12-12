@@ -10,7 +10,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	if (isset($_POST['submit'])) {
 		$category = $_POST['category'];
 		$id = $_GET['id'];
-		$sql = "update  tblcategory set CategoryName=:category where id=:id";
+		$sql = "update  category set CategoryName=:category where id=:id";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':category', $category, PDO::PARAM_STR);
 		$query->bindParam(':id', $id, PDO::PARAM_STR);
@@ -91,10 +91,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 										<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 										<div class="panel-body">
 											<form method="post" name="editcategory" class="form-horizontal">
-												<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 												<?php
 												$id = $_GET['id'];
-												$ret = "select * from tblcategory where id=:id";
+												$ret = "select * from category where id=:id";
 												$query = $dbh->prepare($ret);
 												$query->bindParam(':id', $id, PDO::PARAM_STR);
 												$query->execute();

@@ -133,7 +133,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 											    <div class="form-group">
 											        <label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
 											        <div class="col-sm-4">
-											        	<select class="formselect" name="category" required>
+											        	<select class="selectpicker" name="category" required>
 											        		<option value="<?php echo htmlentities($result->cid)?>"><?php echo htmlentities($catname = $result->CategoryName);?></option>
 											        		<?php 
 											        		$categories = "SELECT id, parent_id, CategoryName from category where parent_id = 0;";
@@ -154,7 +154,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         
 											        <label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
 											        <div class="col-sm-4">
-											        	<select class="formselect" name="subcategory" required>
+											        	<select class="selectpicker" name="subcategory" required>
 														<option value="<?php echo htmlentities($result->scid)?>"><?php echo htmlentities($subcatname = $result->CategoryName);?></option>
 											        		<?php 
 											        		# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
@@ -217,7 +217,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         
 											    <div class="form-group">
 											    	<div class="col-sm-4">
-											    		Image 4<img src="img/productimages/<?php echo htmlentities($result->DetImage); ?>" width="300" height="800" style="border:solid 1px #d9d2d2">
+											    		Description Image<img src="img/productimages/<?php echo htmlentities($result->DetImage); ?>" width="300" height="800" style="border:solid 1px #d9d2d2">
 											    		<a href="changedetailimage.php?imgid=<?php echo htmlentities($result->id) ?>">Change Description Image</a>
 											    	</div>
 											    </div>

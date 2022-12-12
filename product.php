@@ -97,14 +97,27 @@
                             <!--DataTable-->
 
                             <?php
-                            $scid = intval($_GET['scid']);
+                            $id = intval($_GET['id']);
+
+                            #Products to be diaplayed on each page.
+                            $per_page = 9;
+
+                            #Get current page
+                            $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                            $starting_limit = ($page-1) * $per_page;
+
+                            $query_products = $dbh ->prepare("SELECT tblproducts.* from tblproducts where Category = $id or SubCategory = $id");
+                            $query_products->execute();
+                            $records = $query_products->fetchAll(PDO::FETCH_OBJ);
+                            $total_pages = ceil(count($records)/$per_page);
+
                             $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.SubCategory,tblproducts.Image1
-                                    from tblproducts where tblproducts.SubCategory = :scid";
+                                    from tblproducts where tblproducts.Category = :id or tblproducts.SubCategory = :id ORDER BY id DESC LIMIT $starting_limit, $per_page";
                             $query = $dbh->prepare($sql);
-                            $query->bindParam(':scid', $scid, PDO::PARAM_STR);
+                            $query->bindParam(':id', $id, PDO::PARAM_STR);
                             $query->execute();
                             $results = $query->fetchAll(PDO::FETCH_OBJ);
-                            $cnt = 1;
+
                             if ($query->rowCount() > 0) {
                                 foreach ($results as $result) {?>
         
@@ -120,7 +133,7 @@
                                 <?php }
                             } else {?>
                                 <div class="container">
-                                    <h1>Ooop! We ddnt find the products you specified. Try another search. </h1>
+                                    <h1>Ooop! We ddnt find the products you specified.</h1>
                                 </div>
                             <?php }
                             ?>
@@ -130,9 +143,7 @@
 
                         <div class="clear"></div>
 
-                        <div class="pagelist">
-                            <?php include('includes/pagination.php')?>
-                        </div>
+                        <?php include('includes/pagination.php')?>
 
                     </div>
                     <div class="clear"></div>
