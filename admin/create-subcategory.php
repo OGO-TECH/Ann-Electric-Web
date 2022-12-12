@@ -108,7 +108,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <div class="form-group">
                                                     <label class="col-sm-4 control-label">Category</label>
                                                     <div class="col-sm-8">
-                                                        <select class="formselect" name="category" required>
+                                                        <select class="selectpicker" name="category" required>
                                                             <option value=""> Select </option>
                                                             <?php 
                                                             $ret = "SELECT id,Parent_Id,CategoryName from category where Parent_Id = 0";

@@ -101,10 +101,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 														$query2 = $dbh->prepare($sql2);
 														$query2->execute();
 														$results2 = $query2->fetchAll(PDO::FETCH_OBJ);
-														$bookings = $query2->rowCount();
+														$subcategories = $query2->rowCount();
 														?>
 
-														<div class="stat-panel-number h1 "><?php echo htmlentities($bookings); ?></div>
+														<div class="stat-panel-number h1 "><?php echo htmlentities($subcategories); ?></div>
 														<div class="stat-panel-title text-uppercase">Listed Sub Categories</div>
 													</div>
 												</div>

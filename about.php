@@ -65,20 +65,43 @@
 					</dl>
 				</div>
 				<div class="about">
+					<p>Ann Electric is a specialized enterprise in researching, 
+						manufacturing and sale electrical products located in Binhai area,
+						Wenzhou Economic-Technological Development Zone.We are the member of China Mechanical and 
+						electrical products import and export chamber of commerce; 
+						A-level management enterprise in Chinese Customs' List of reputation management .
+						Our goods has been exported to more than 20 countries and regions in ASEAN,Africa,
+						Europe and middle east.Our brand "MG" won good reputation in the related market. 
+					</p>
 					<p>
-						Ann Electric <is a specialized enterprise in researching, manufacturing and sale electrical products located in Binhai area,Wenzhou Economic-Technological Development Zone.We are the member of China Mechanical and electrical products import and export chamber of commerce; A-level management enterprise in Chinese Customs' List of reputation management .Our goods has been exported to more than 20 countries and regions in ASEAN,Africa,Europe and middle east.Our brand "MG" won good reputation in the related market. </p>
-							<p>
-								Our high quality research,management and technical team are oriented to comprehensive quality management.By strictly carrying out standards of ISO9001:2008 international quality management system and 5S management,our goods various technical performance indexes meet the requirement of domestic and international standards. We obtain SONCAP,TBS,CE certificate for product access qualification certificate. In 2013 we obtain a patent for electric products package design awarded by China's State Intellectual Property Office.In 2014,it won Utility Model Patent Certificate.Our aboratory room under construction would be the most perfect one in the line of electrical accessories used in civil architecture.
-							</p>
-							<p>
-								<img alt="" src="assets/upload/201610/22/201610220849224922.png">
-							</p>
-							<p>
-								We have developed more than 10 series (200 specifications )switch and sockets;more than 100 specifications of lamp holder and junction box;also related products including ventilator,insulating tape,LED light, energy saving lamp, knife switch,extension socket,breakers and consumer unit etc.And annual foreign exchange earnings reaches to more than $7 million. And we offer One-Stop Service for solution of engineering and household electric.
-							</p>
-							<p>
-								With the tenet of reasonable price,effective production time and good After-sales service and policy of unity ,Diligence,objectivity,innovation we can offer the best quality products and perfect service.<img alt="" src="../upload/201611/08/201611081541164986.jpg"><img alt="" src="../upload/201611/08/201611081541324536.jpg"><img alt="" src="../upload/201611/08/201611081541402982.jpg">
-							</p>
+						Our high quality research,management and technical team are oriented to comprehensive quality management.
+						By strictly carrying out standards of ISO9001:2008 international quality management system and 5S management,
+						our goods various technical performance indexes meet the requirement of domestic and international standards. 
+						We obtain SONCAP,TBS,CE certificate for product access qualification certificate. 
+						In 2013 we obtain a patent for electric products package design awarded by China's State Intellectual Property Office.
+						In 2014,it won Utility Model Patent Certificate.
+						Our aboratory room under construction would be the most perfect one in 
+						the line of electrical accessories used in civil architecture.
+					</p>
+					<p>
+						<img alt="" src="assets/upload/201610/22/201610220849224922.png">
+					</p>
+					<p>
+						We have developed more than 10 series (200 specifications )switch and sockets;
+						more than 100 specifications of lamp holder and junction box;
+						also related products including ventilator,insulating tape,LED light, energy saving lamp, 
+						knife switch,extension socket,breakers and consumer unit etc.
+						And annual foreign exchange earnings reaches to more than $7 million. 
+						And we offer One-Stop Service for solution of engineering and household electric.
+					</p>
+					<p>
+						With the tenet of reasonable price,effective production time and good After-sales 
+						service and policy of unity ,Diligence,objectivity,innovation we can offer the best 
+						quality products and perfect service.
+						<img alt="" src="assets/upload/201611/08/201611081541164986.jpg">
+						<img alt="" src="assets/upload/201611/08/201611081541324536.jpg">
+						<img alt="" src="assets/upload/201611/08/201611081541402982.jpg">
+					</p>
 				</div>
 			</div>
 

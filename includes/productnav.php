@@ -16,13 +16,20 @@
                 if($subcategory->rowCount()>0){ ?>
                     <dt><a href="javascript:;" class="flip"><?php echo htmlentities($result->CategoryName);?></a></dt>
                     <dd class="panel">
-                    <?php foreach($children as $child){?>
+                    <?php foreach($children as $child){
+                        if ($_GET['id'] == ($child->id)){ ?>
+                            <a class = "selected" href="product.php?id=<?php echo htmlentities($child->id)?>&page=<?php echo ('1'); ?>" > — <?php echo ($child->CategoryName);?></a>
+                        <?php } else { ?>
                         <a href="product.php?id=<?php echo htmlentities($child->id)?>&page=<?php echo ('1'); ?>"> — <?php echo ($child->CategoryName);?></a>
-                    <?php }?>
+                        <?php }
+                     }?>
                     </dd>
-                <?php } else { ?>
+                <?php } else { 
+                    if ($_GET['id'] == ($result->id)){ ?>
+                        <dt class="selected"><a href="product.php?id=<?php echo ($result->id);?>&page=<?php echo ('1'); ?>"><?php echo htmlentities($result->CategoryName);?></a></dt>
+                    <?php } else { ?>
                     <dt><a href="product.php?id=<?php echo ($result->id);?>&page=<?php echo ('1'); ?>"><?php echo htmlentities($result->CategoryName);?></a></dt>
-                <?php
+                    <?php }
                 }
                 ?>
             </dl>
