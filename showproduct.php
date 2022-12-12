@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/templates/youda/css/main.css">
     <link rel="stylesheet" type="text/css" href="assets/templates/youda/css/otherpage.css">
-    <title>2 gang switch - Ann Electric </title>
+    <title>Products - Ann Electric </title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <script type="text/javascript" src="assets/templates/youda/js/jquery-1.7.2.min.js"></script>

@@ -7,7 +7,7 @@
             <a href="contact.php">CONTACT US</a>
         </div>
         <div class="search">
-            <form method="POST" action="search.php">
+            <form method="POST" action="search.php?page=<?php echo ('1');?>">
                 <input id="keyword" name="keyword" type="text" placeholder="Search" class="txt_search">
                 <input type="button" class="btn_search">
             </form>

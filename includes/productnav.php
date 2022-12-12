@@ -17,11 +17,11 @@
                     <dt><a href="javascript:;" class="flip"><?php echo htmlentities($result->CategoryName);?></a></dt>
                     <dd class="panel">
                     <?php foreach($children as $child){?>
-                        <a href="subcategories.php?scid=<?php echo ($child->id);?>"> — <?php echo ($child->CategoryName);?></a>
+                        <a href="product.php?id=<?php echo htmlentities($child->id)?>&page=<?php echo ('1'); ?>"> — <?php echo ($child->CategoryName);?></a>
                     <?php }?>
                     </dd>
                 <?php } else { ?>
-                    <dt><a href="categories.php?cid=<?php echo ($result->id);?>"><?php echo htmlentities($result->CategoryName);?></a></dt>
+                    <dt><a href="product.php?id=<?php echo ($result->id);?>&page=<?php echo ('1'); ?>"><?php echo htmlentities($result->CategoryName);?></a></dt>
                 <?php
                 }
                 ?>

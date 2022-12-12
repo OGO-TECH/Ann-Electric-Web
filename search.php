@@ -98,12 +98,16 @@
 
                             <?php
                             if (isset($_POST['keyword'])){
+                            $page = isset($_GET['page']) ? $_GET['page'] : 1;
                             $keyword = $_POST['keyword'];
+                            
                             $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.SubCategory,tblproducts.Image1
                                     from tblproducts where tblproducts.ProductName like :term or tblproducts.Description like :term";
                             $query = $dbh->prepare($sql);
                             $query->execute(array(':term' => '%' .$keyword.'%'));
                             $results = $query->fetchAll(PDO::FETCH_OBJ);
+                            $per_page = 9;
+                            $total_pages = ceil(count($results)/$per_page);
                             $cnt = 1;
                             if ($query->rowCount() > 0) {
                                 foreach ($results as $result) {?>
@@ -131,17 +135,7 @@
 
                         <div class="clear"></div>
 
-                        <div class="pagelist">
-                            <a><<</a>
-                            <a><</a>
-                            <a class="selected">1</a>
-                            <a href="product/0/2.html">2</a>
-                            <a href="product/0/3.html">3</a>
-                            <a href="product/0/4.html">4</a>
-                            <span>...</span>
-                            <a href="product/0/52.html">></a>
-                            <a href="product/0/53.html">>></a>
-                        </div>
+                        <?php include('includes/pagination.php')?>
 
                     </div>
                     <div class="clear"></div>

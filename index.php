@@ -79,7 +79,7 @@
 
                             if($query->rowCount()>0){
                                 foreach ($results as $result){?>
-                                    <li><a href="categories.php?cid=<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->CategoryName);?></a>
+                                    <li><a href="product.php?id=<?php echo htmlentities($result->id);?>&page=<?php echo ('1'); ?>"><?php echo htmlentities($result->CategoryName);?></a>
                                         <ul>
                                         <?php
                                         $catid = $result->id;
@@ -89,7 +89,7 @@
     
                                         if($subcategory->rowCount()>0){
                                             foreach($children as $child){?>
-                                                <li><a href="subcategories.php?scid=<?php echo ($child->id);?>"><?php echo ($child->CategoryName);?></a></li>
+                                                <li><a href="product.php?scid=<?php echo ($child->id);?>&page=<?php echo ('1'); ?>"><?php echo ($child->CategoryName);?></a></li>
                                             <?php }
                                         } ?>
                                         </ul>
@@ -161,7 +161,7 @@
                     <!--Products Display-->
 
                     <?php
-                    $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.Image1 from tblproducts";
+                    $sql = "SELECT tblproducts.id, tblproducts.ProductName,tblproducts.Image1 from tblproducts LIMIT 0,8";
                     $query = $dbh->prepare($sql);
                     $query->execute();
                     $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -184,7 +184,7 @@
 
                     <!--/Products display-->
 
-                    <a href="product.php" class="index_product_btn">MORE</a>
+                    <a class="index_product_btn">MORE</a>
                     
                 </div>
 

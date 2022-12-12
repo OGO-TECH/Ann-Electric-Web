@@ -23,15 +23,16 @@
                                 $subcategory->execute([$catid]);
                                 $children = $subcategory->fetchAll(PDO::FETCH_OBJ);?>
     
-                                <li><a href="categories.php?cid=<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->CategoryName);?></a>
+                                <li><a href="product.php?id=<?php echo htmlentities($result->id);?>&page=<?php echo ('1'); ?>"><?php echo htmlentities($result->CategoryName);?></a>
                                     <?php if($subcategory->rowCount()>0){?>
                                         <ul>
                                             <?php foreach($children as $child){?>
-                                            <li><a href="subcategories.php?scid=<?php echo htmlentities($child->id);?>"><?php echo htmlentities($child->CategoryName);?></a></li> 
+                                            <li><a href="product.php?id=<?php echo htmlentities($child->id)?>&page=<?php echo ('1'); ?>"><?php echo htmlentities($child->CategoryName);?></a></li> 
                                             <?php } ?>
                                         </ul>
                                     <?php } ?>
                                 </li>
+
                            <?php } ?>
                        </ul>
                     <?php }?>  

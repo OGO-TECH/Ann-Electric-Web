@@ -141,7 +141,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 													
 													<label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
 													<div class="col-sm-4">
-														<select class="formselect" name="category" required>
+														<select class="selectpicker" name="category" required>
 															<option value="">Select</option>
 															<?php
 															# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
@@ -158,9 +158,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 															?>
 														</select>
 													</div>
-													<label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
+													<label class="col-sm-2 control-label">Select SubCategory</span></label>
 													<div class="col-sm-4">
-														<select class="formselect" name="subcategory" required>
+														<select class="selectpicker" name="subcategory">
 															<option value="">Select</option>
 															<?php
 															$subcategory = "SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id";
