@@ -88,36 +88,36 @@ if (strlen($_SESSION['alogin']) == 0) {
 								<div class="panel-heading">Listed Products</div>
 								<div class="panel-body">
 									<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
-									<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-										<thead>
+									<?php
+									$sql = "SELECT id, parent_id, CategoryName FROM category where parent_id = 0";
+									$query = $dbh->prepare($sql);
+									$query->execute();
+                                    $categories = $query->fetchAll(PDO::FETCH_OBJ);
+
+									if($query->rowCount()> 0){?>
+										<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<?php foreach($categories as $category){?>
+											<thead>
+											<tr style="color: #76c1d5;"><th style="font-size: 1.8em;text-align: center;"colspan="7"><?php echo htmlentities($category->CategoryName)?></th></tr>	
 											<tr>
 												<th>#</th>
                                                 <th>PartNo</th>
 												<th>Product Name</th>
-                                                <th>Category</th>
+												<th>SubCategory</th>
 												<th>Description</th>
                                                 <th>Added On</th>
 												<th>Action</th>
 											</tr>
-										</thead>
-										<tfoot>
-											<tr>
-												<th>#</th>
-                                                <th>PartNo</th>
-												<th>Product Name</th>
-                                                <th>Category</th>
-												<th>Description</th>
-                                                <th>Added On</th>
-												<th>Action</th>
-											</tr>
-											</tr>
-										</tfoot>
-										<tbody>
-											<?php $sql = "SELECT tblproducts.id,tblproducts.PartNo,tblproducts.ProductName,tblproducts.Category,tblproducts.SubCategory,
-											              tblproducts.Description,tblproducts.CreatedOn,category.id as cid,category.CategoryName,category.parent_id as scid
-														  from  tblproducts 
-														  join category on category.id = tblproducts.Category;";
+										    </thead>
+											<?php 
+											$category = ($category->id);
+											$sql = "SELECT tblproducts.id,tblproducts.PartNo,tblproducts.ProductName,tblproducts.Category,tblproducts.SubCategory,
+											        tblproducts.Description,tblproducts.CreatedOn,category.id as cid,category.CategoryName,category.parent_id as scid
+												    from  tblproducts 
+												    join category on category.id = tblproducts.SubCategory
+												    where tblproducts.Category = :category;";
 											$query = $dbh->prepare($sql);
+											$query->bindParam(':category',$category,PDO::PARAM_STR);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
 											$cnt = 1;
@@ -127,7 +127,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<td><?php echo htmlentities($cnt); ?></td>
 												<td><?php echo htmlentities($result->PartNo); ?></td>
                                                 <td><?php echo htmlentities($result->ProductName); ?></td>
-                                                <td><?php echo htmlentities($result->CategoryName); ?></td>
+												<td><?php echo htmlentities($result->CategoryName); ?></td>
 												<td><?php echo htmlentities($result->Description); ?></td>
                                                 <td><?php echo htmlentities($result->CreatedOn); ?></td>
 												<td>
@@ -138,6 +138,14 @@ if (strlen($_SESSION['alogin']) == 0) {
 											<?php $cnt = $cnt + 1;
 												}
 											} ?>
+										    <tbody>
+										    </tbody>
+										<?php }?>
+										</table>
+									<?php }
+									?>
+										<tbody>
+											
 
 										</tbody>
 									</table>

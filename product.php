@@ -132,7 +132,7 @@
         
                                 <?php }
                             } else {?>
-                                <div class="container">
+                                <div class="oops" style="width:70%; margin:auto">
                                     <h1>Ooop! We ddnt find the products you specified.</h1>
                                 </div>
                             <?php }

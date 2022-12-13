@@ -1,4 +1,4 @@
-//<?php
+<?php
 // DB credentials.
 //define('DB_HOST', 'localhost');
 //define('DB_USER', 'root');
@@ -11,8 +11,6 @@
     //exit("Error: " . $e->getMessage());
 //}
 
-
-<?php
 //Get Heroku ClearDB connection information
 $cleardb_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 $cleardb_server = $cleardb_url["host"];

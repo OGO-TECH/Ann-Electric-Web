@@ -105,7 +105,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 										    <?php if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 											<?php
                                             $id = intval($_GET['id']);
-                                            $sql = "SELECT tblproducts.*, category.CategoryName, category.id as cid,category.parent_id as scid from tblproducts 
+                                            $sql = "SELECT tblproducts.*, category.CategoryName, category.id as cid,category.parent_id from tblproducts 
 											        join category on category.id = tblproducts.Category
 											        where tblproducts.id=:id";
                                             $query = $dbh->prepare($sql);
@@ -155,19 +155,20 @@ if (strlen($_SESSION['alogin']) == 0) {
 											        <label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
 											        <div class="col-sm-4">
 											        	<select class="selectpicker" name="subcategory" required>
-														<option value="<?php echo htmlentities($result->scid)?>"><?php echo htmlentities($subcatname = $result->CategoryName);?></option>
+															
+														<option value="<?php echo htmlentities($result->SubCategory)?>"><?php echo htmlentities($subcatname = $result->SubCategory);?></option>
 											        		<?php 
 											        		# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
-											        		$subcategory = "SELECT id, parent_id, CategoryName from category WHERE parent_id != 0 ORDER BY parent_id;";
+											        		$subcategory = "SELECT id, parent_id, CategoryName from category WHERE parent_id = ($result->Category) ORDER BY parent_id;";
 											        		$query = $dbh->prepare($subcategory);
 											        		$query->execute();
-											        		$resultsss = $query->fetchAll(PDO::FETCH_OBJ);
+											        		$scategories = $query->fetchAll(PDO::FETCH_OBJ);
 											        		if ($query->rowCount()>0){
-											        			foreach ($resultsss as $resultss){ 
-											    					if ($resultss->CategoryName == $subcatname){
+											        			foreach ($scategories as $scategory){ 
+											    					if ($scategory->CategoryName == $subcatname){
 											    						continue;
 											    					} else {?>
-                                                                        <option value="<?php echo htmlentities($resultss->id)?>"><?php echo htmlentities($resultss->CategoryName);?></option>
+                                                                        <option value="<?php echo htmlentities($scategory->id)?>"><?php echo htmlentities($scategory->CategoryName);?></option>
 											    					<?php }
 											        			}
 											        		} ?>
