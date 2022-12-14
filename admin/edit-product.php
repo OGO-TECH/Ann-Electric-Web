@@ -106,7 +106,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 											<?php
                                             $id = intval($_GET['id']);
                                             $sql = "SELECT tblproducts.*, category.CategoryName, category.id as cid,category.parent_id from tblproducts 
-											        join category on category.id = tblproducts.Category
+											        join category on category.id = tblproducts.Category and catehory.id = tblproducts.SubCategory
 											        where tblproducts.id=:id";
                                             $query = $dbh->prepare($sql);
                                             $query->bindParam(':id', $id,PDO::PARAM_STR);
@@ -164,13 +164,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 											        		$query->execute();
 											        		$scategories = $query->fetchAll(PDO::FETCH_OBJ);
 											        		if ($query->rowCount()>0){
-											        			foreach ($scategories as $scategory){ 
-											    					if ($scategory->CategoryName == $subcatname){
-											    						continue;
-											    					} else {?>
-                                                                        <option value="<?php echo htmlentities($scategory->id)?>"><?php echo htmlentities($scategory->CategoryName);?></option>
-											    					<?php }
-											        			}
+											        			foreach ($scategories as $scategory){?>
+                                                                    <option value="<?php echo htmlentities($scategory->id)?>"><?php echo htmlentities($scategory->CategoryName);?></option>
+											        			<?php }
 											        		} ?>
 											        	</select>
 											        </div>
