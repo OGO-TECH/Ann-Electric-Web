@@ -20,5 +20,5 @@ $cleardb_db = substr($cleardb_url["path"],1);
 $active_group = 'default';
 $query_builder = TRUE;
 // Connect to DB
-$dbo = new PDO($cleardb_server, $cleardb_username, $cleardb_password, $cleardb_db);
+$dbh = new PDO($cleardb_server, $cleardb_username, $cleardb_password, $cleardb_db);
 ?>
