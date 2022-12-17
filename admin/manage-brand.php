@@ -10,11 +10,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 	if (isset($_GET['del'])) {
 		$id = $_GET['del'];
-		$sql = "delete from tblproducts  WHERE id=:id";
+		$sql = "delete from tblbrand  WHERE id=:id";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':id', $id, PDO::PARAM_STR);
 		$query->execute();
-		$msg = "Product Deleted Succesfully!";
+		$msg = "Brand Deleted Succesfully!";
 	}
 
 ?>
@@ -30,7 +30,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<meta name="author" content="Geofrey Obara">
 		<meta name="theme-color" content="#3e454c">
 
-		<title>Ann Electric |Admin Manage product </title>
+		<title>Ann Electric |Admin Manage Brands </title>
 
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -81,44 +81,33 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="row">
 						<div class="col-md-12">
 
-							<h2 class="page-title">Manage Products</h2>
+							<h2 class="page-title">Manage Brands</h2>
 
 							<!-- Zero Configuration Table -->
 							<div class="panel panel-default">
-								<div class="panel-heading">Listed Products</div>
+								<div class="panel-heading">Listed Brands</div>
 								<div class="panel-body">
 									<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
-									<?php
-									$sql = "SELECT id, parent_id, CategoryName FROM category where parent_id = 0";
-									$query = $dbh->prepare($sql);
-									$query->execute();
-                                    $categories = $query->fetchAll(PDO::FETCH_OBJ);
-
-									if($query->rowCount()> 0){?>
-										<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-										<?php foreach($categories as $category){?>
-											<thead>
-											<tr style="color: #76c1d5;"><th style="font-size: 1.8em;text-align: center;"colspan="8"><?php echo htmlentities($category->CategoryName)?></th></tr>	
+									<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<thead>
 											<tr>
 												<th>#</th>
-                                                <th>PartNo</th>
-												<th>Product Name</th>
-												<th>Brand</th>
-												<th>SubCategory</th>
-												<th>Description</th>
+												<th>Brand Name</th>
 												<th>Action</th>
 											</tr>
-										    </thead>
+										</thead>
+										<tfoot>
+											<tr>
+												<th>#</th>
+												<th>Brand Name</th>
+												<th>Action</th>
+											</tr>
+											</tr>
+										</tfoot>
+										<tbody>
 											<?php 
-											$category = ($category->id);
-											$sql = "SELECT tblproducts.id,tblproducts.PartNo,tblproducts.ProductName,tblproducts.Category,tblproducts.SubCategory,
-											        tblproducts.Description,category.id as cid,category.CategoryName,category.parent_id as scid, tblbrand.id as bid, tblbrand.BrandName
-												    from  tblproducts 
-													join tblbrand on tblbrand.id = tblproducts.Brand
-												    join category on category.id = tblproducts.SubCategory
-												    where tblproducts.Category = :category;";
+											$sql = "SELECT * from  tblbrand ";
 											$query = $dbh->prepare($sql);
-											$query->bindParam(':category',$category,PDO::PARAM_STR);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);
 											$cnt = 1;
@@ -126,33 +115,21 @@ if (strlen($_SESSION['alogin']) == 0) {
 												foreach ($results as $result) {				?>
 											<tr>
 												<td><?php echo htmlentities($cnt); ?></td>
-												<td><?php echo htmlentities($result->PartNo); ?></td>
-                                                <td><?php echo htmlentities($result->ProductName); ?></td>
 												<td><?php echo htmlentities($result->BrandName); ?></td>
-												<td><?php echo htmlentities($result->CategoryName); ?></td>
-												<td><?php echo htmlentities($result->Description); ?></td>
 												<td>
-													<a href="edit-product.php?id=<?php echo $result->id; ?>" class="btn btn-primary" style="line-height: 10px;">Edit</a>&nbsp;&nbsp;
-													<a href="manage-product.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this product?');" class="btn btn-primary" style="background-color: #e53131;line-height: 10px">Delete</a>
+													<a href="edit-brand.php?id=<?php echo $result->id; ?>" class="btn btn-primary" style="line-height: 10px;">Edit</a>&nbsp;&nbsp;
+													<a href="manage-brand.php?del=<?php echo $result->id; ?>" onclick="return confirm('Do you want to delete this Brand? All products within this brand will also be deleted!');" class="btn btn-primary" style="background-color: #e53131; line-height: 10px;">Delete</a>
 												</td>
 											</tr>
 											<?php $cnt = $cnt + 1;
 												}
 											} ?>
-										    <tbody>
-										    </tbody>
-										<?php }?>
-										</table>
-									<?php }
-									?>
-										<tbody>
-											
 
 										</tbody>
 									</table>
 								</div>
 								<div class="addcat" style="text-align:center; margin-bottom: 30px;">
-									<a href="add-product.php" class="btn btn-primary">Add a Product</a>
+									<a href="create-brand.php" class="btn btn-primary">Add a Brand</a>
 								</div>
 							</div>
 						</div>
