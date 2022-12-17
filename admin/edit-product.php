@@ -11,18 +11,20 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$productName = $_POST['productname'];
 		$category = $_POST['category'];
 		$subCategory = $_POST['subcategory'];
+		$brand = $_POST['brandname'];
 		$productDescription= $_POST['productdescription'];
 		$pack = $_POST['pack'];
 
         #Insert form data into database tbllaptops.
 		$sql = "update tblproducts
-                set PartNo=:partnumber,ProductName=:productname,Category=:category,SubCategory=:subcategory,Description=:productdescription,Pack=:pack";
+                set PartNo=:partnumber,ProductName=:productname,Category=:category,SubCategory=:subcategory,Brand=:brandname,Description=:productdescription,Pack=:pack";
 
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':partnumber', $partNumber, PDO::PARAM_STR);
 		$query->bindParam(':productname', $productName, PDO::PARAM_STR);
 		$query->bindParam(':category', $category, PDO::PARAM_STR);
 		$query->bindParam(':subcategory', $subCategory, PDO::PARAM_STR);
+		$query->bindParam(':brandname', $brand, PDO::PARAM_STR);
 		$query->bindParam(':productdescription', $productDescription, PDO::PARAM_STR);
 		$query->bindParam(':pack', $pack, PDO::PARAM_STR);
 		$query->execute();
@@ -105,8 +107,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 										    <?php if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 											<?php
                                             $id = intval($_GET['id']);
-                                            $sql = "SELECT tblproducts.*, category.CategoryName, category.id as cid,category.parent_id from tblproducts 
-											        join category on category.id = tblproducts.Category and catehory.id = tblproducts.SubCategory
+                                            $sql = "SELECT tblproducts.*, tblbrand.id as bid, tblbrand.BrandName, category.id as cid, category.CategoryName, category.parent_id as pid from tblproducts
+											        join tblbrand on tblbrand.id = tblproducts.Brand
+													join category on category.id = tblproducts.Category
 											        where tblproducts.id=:id";
                                             $query = $dbh->prepare($sql);
                                             $query->bindParam(':id', $id,PDO::PARAM_STR);
@@ -115,7 +118,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             $cnt = 1;
                                             
                                             if($query->rowCount() > 0){ foreach ($results as $result){ ?> 
-										    <form method="post"name="editproduct"  class="form-horizontal" enctype="multipart/form-data">
+										    <form method="post" class="form-horizontal" enctype="multipart/form-data">
 											    <div class="form-group">
 											    	<label class="col-sm-2 control-label">PartNo<span style="color: red;">*</span></label>
 											    	<div class="col-sm-4">
@@ -130,49 +133,73 @@ if (strlen($_SESSION['alogin']) == 0) {
         
 											    <div class="hr-dashed"></div>
 
-											    <div class="form-group">
-											        <label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
-											        <div class="col-sm-4">
-											        	<select class="selectpicker" name="category" required>
-											        		<option value="<?php echo htmlentities($result->cid)?>"><?php echo htmlentities($catname = $result->CategoryName);?></option>
-											        		<?php 
-											        		$categories = "SELECT id, parent_id, CategoryName from category where parent_id = 0;";
-											        		$query = $dbh->prepare($categories);
-											        		$query->execute();
-											        		$resultss = $query->fetchAll(PDO::FETCH_OBJ);
-											        		if ($query->rowCount()>0){
-											        			foreach ($resultss as $results){ 
-											    					if ($results->CategoryName == $catname){
-											    						continue;
-											    					} else {?>
-                                                                        <option value="<?php echo htmlentities($results->id)?>"><?php echo htmlentities($results->CategoryName);?></option>
-											    					<?php }
-											        			}
-											        		} ?>
-											        	</select>
-											        </div>
-        
-											        <label class="col-sm-2 control-label">Select SubCategory<span style="color: red;">*</span></label>
-											        <div class="col-sm-4">
-											        	<select class="selectpicker" name="subcategory" required>
-															
-														<option value="<?php echo htmlentities($result->SubCategory)?>"><?php echo htmlentities($subcatname = $result->SubCategory);?></option>
-											        		<?php 
-											        		# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
-											        		$subcategory = "SELECT id, parent_id, CategoryName from category WHERE parent_id = ($result->Category) ORDER BY parent_id;";
-											        		$query = $dbh->prepare($subcategory);
-											        		$query->execute();
-											        		$scategories = $query->fetchAll(PDO::FETCH_OBJ);
-											        		if ($query->rowCount()>0){
-											        			foreach ($scategories as $scategory){?>
-                                                                    <option value="<?php echo htmlentities($scategory->id)?>"><?php echo htmlentities($scategory->CategoryName);?></option>
-											        			<?php }
-											        		} ?>
-											        	</select>
-											        </div>
+												<div class="form-group">
+													
+													<label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
+													<div class="col-sm-4">
+														<select class="selectpicker" name="category" required>
+															<option value="<?php echo htmlentities($result->cid);?>"><?php echo htmlentities($catname = $result->CategoryName);?></option>
+															<?php
+															$cats = $dbh->prepare("SELECT id, parent_id, CategoryName from category where parent_id = 0");
+															$cats->execute();
+															$categories = $cats->fetchAll(PDO::FETCH_OBJ);
+															if ($cats->rowCount()>0){
+																foreach ($categories as $category){ ?>
+																<option value="<?php echo htmlentities($category->id)?>"><?php echo htmlentities($category->CategoryName);?></option>
+																<?php 
+																}
+															}
+															?>
+														</select>
+													</div>
+
+													<label class="col-sm-2 control-label">Select SubCategory</span></label>
+													<div class="col-sm-4">
+														<select class="selectpicker" name="subcategory">
+															<option value="<?php echo htmlentities($result->SubCategory);?>"><?php echo htmlentities($subname = $result->SubCategory);?></option>
+															<?php
+															$subcats = $dbh->prepare("SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id");
+															$subcats->execute();
+															$subcategories = $subcats->fetchAll(PDO::FETCH_OBJ);
+															if ($subcats->rowCount()>0){
+																foreach ($subcategories as $subcategory){ ?>
+																<option value="<?php echo htmlentities($subcategory->id)?>"><?php echo htmlentities($subcategory->CategoryName);?></option>
+																<?php }
+															}
+														
+															?>
+														</select>
+													</div>
 												</div>
 
 											    <div class="hr-dashed"></div>
+
+												<div class="form-group">
+												    <label class="col-sm-2 control-label">Pack<span style="color: red;">*</span></label>
+													<div class="col-sm-4">
+														<input type="text" name="pack" class="form-control" value="<?php echo htmlentities($result->Pack)?>" required>
+													</div>
+
+													<label class="col-sm-2 control-label">Select Brand<span style="color:red">*</span></label>
+													<div class="col-sm-4">
+														<select class="selectpicker" name="brandname" required>
+															<option value="<?php echo htmlentities($result->bid); ?>"><?php echo htmlentities($bdname = $result->BrandName); ?></option>
+															<?php 
+															$brandquery = $dbh->prepare("select id,BrandName from tblbrand");
+															$brandquery->execute();
+															$brands = $brandquery->fetchAll(PDO::FETCH_OBJ);
+															if ($brandquery->rowCount() > 0) {
+																foreach ($brands as $brand) {
+															?>
+																<option value="<?php echo htmlentities($brand->id); ?>"><?php echo htmlentities($brand->BrandName); ?></option>
+															<?php }
+															} ?>
+
+														</select>
+													</div>
+												</div>
+
+												<div class="hr-dashed"></div>
 
 												<div class="form-group">
 													<label class="col-sm-2 control-label">Product Description<span style="color:red">*</span></label>
@@ -180,16 +207,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<textarea class="form-control" name="productdescription" rows="3" required><?php echo htmlentities($result->Description); ?></textarea>
 													</div>
 												</div>
+
 												<div class="hr-dashed"></div>
-
-											    <div class="form-group">
-											        <label class="col-sm-2 control-label">Pack<span style="color: red;">*</span></label>
-											    	<div class="col-sm-4">
-											    		<input type="text" name="pack" class="form-control" value="<?php echo htmlentities($result->Pack); ?>" required>
-											    	</div>
-											    </div>
-
-											    <div class="hr-dashed"></div>
         
 											    <div class="form-group">
 											    	<div class="col-sm-12">
@@ -220,15 +239,17 @@ if (strlen($_SESSION['alogin']) == 0) {
 											    </div>
                                                 
 											    <div class="hr-dashed"></div>
+
+												<?php }}?>
+
                                                 <div class="form-group">
 											        <div class="col-sm-8 col-sm-offset-2" style="text-align:center; margin-bottom: 30px;">
 											            <button class="btn btn-primary" name="submit" type="submit">Save changes</button>
 											        </div>
 											    </div>
+
                                             </form>
-											<?php }
-                                            }
-                                            ?>
+											
 										</div>
                                     </div>
                                 </div>

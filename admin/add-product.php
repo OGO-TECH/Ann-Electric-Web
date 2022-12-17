@@ -11,6 +11,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$productName = $_POST['productname'];
 		$category = $_POST['category'];
 		$subCategory = $_POST['subcategory'];
+		$brand = $_POST['brandname'];
 		$productDescription= $_POST['productdescription'];
 		$pack = $_POST['pack'];
 		$image1 = $_FILES["img1"]["name"];
@@ -23,9 +24,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 		move_uploaded_file($_FILES["img4"]["tmp_name"], "img/productimages/" . $_FILES["img4"]["name"]);
 
         #Insert form data into database tbllaptops.
-		$sql = "INSERT INTO tblproducts(PartNo,ProductName,Category,SubCategory,Description,Pack,
+		$sql = "INSERT INTO tblproducts(PartNo,ProductName,Category,SubCategory,Brand,Description,Pack,
 		        Image1,Image2,Image3,DetImage) 
-		        VALUES(:partnumber,:productname,:category,:subcategory,:productdescription,:pack,
+		        VALUES(:partnumber,:productname,:category,:subcategory,:brand,:productdescription,:pack,
 				:image1,:image2,:image3,:detimage)";
 
 		$query = $dbh->prepare($sql);
@@ -33,6 +34,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$query->bindParam(':productname', $productName, PDO::PARAM_STR);
 		$query->bindParam(':category', $category, PDO::PARAM_STR);
 		$query->bindParam(':subcategory', $subCategory, PDO::PARAM_STR);
+		$query->bindParam(':brand', $brand, PDO::PARAM_STR);
 		$query->bindParam(':productdescription', $productDescription, PDO::PARAM_STR);
 		$query->bindParam(':pack', $pack, PDO::PARAM_STR);
 		$query->bindParam(':image1', $image1, PDO::PARAM_STR);
@@ -144,14 +146,12 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<select class="selectpicker" name="category" required>
 															<option value="">Select</option>
 															<?php
-															# $ret = "select id, ParentId, CategoryName from tblcategory where ParentId = 0";
-															$categories = "SELECT id, parent_id, CategoryName from category where parent_id = 0";
-															$query = $dbh->prepare($categories);
-															$query->execute();
-															$results = $query->fetchAll(PDO::FETCH_OBJ);
-															if ($query->rowCount()>0){
-																foreach ($results as $result){ ?>
-																<option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->CategoryName);?></option>
+															$cats = $dbh->prepare("SELECT id, parent_id, CategoryName from category where parent_id = 0");
+															$cats->execute();
+															$categories = $cats->fetchAll(PDO::FETCH_OBJ);
+															if ($cats->rowCount()>0){
+																foreach ($categories as $category){ ?>
+																<option value="<?php echo htmlentities($category->id)?>"><?php echo htmlentities($category->CategoryName);?></option>
 																<?php 
 																}
 															}
@@ -163,13 +163,12 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<select class="selectpicker" name="subcategory">
 															<option value="">Select</option>
 															<?php
-															$subcategory = "SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id";
-															$query = $dbh->prepare($subcategory);
-															$query->execute();
-															$results = $query->fetchAll(PDO::FETCH_OBJ);
-															if ($query->rowCount()>0){
-																foreach ($results as $result){ ?>
-																<option value="<?php echo htmlentities($result->id)?>"><?php echo htmlentities($result->CategoryName);?></option>
+															$subcats = $dbh->prepare("SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id");
+															$subcats->execute();
+															$subcategories = $subcats->fetchAll(PDO::FETCH_OBJ);
+															if ($subcats->rowCount()>0){
+																foreach ($subcategories as $subcategory){ ?>
+																<option value="<?php echo htmlentities($subcategory->id)?>"><?php echo htmlentities($subcategory->CategoryName);?></option>
 																<?php }
 															}
 														
@@ -181,16 +180,36 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<div class="hr-dashed"></div>
 
 												<div class="form-group">
-													<label class="col-sm-2 control-label">Product Description<span style="color: red;">*</span></label>
-													<div class="col-sm-10">
-													    <textarea class="form-control" name="productdescription" rows="3" required></textarea>
-													</div>
-												</div>
-
-												<div class="form-group">
 												    <label class="col-sm-2 control-label">Pack<span style="color: red;">*</span></label>
 													<div class="col-sm-4">
 														<input type="text" name="pack" class="form-control" required>
+													</div>
+
+													<label class="col-sm-2 control-label">Select Brand<span style="color:red">*</span></label>
+													<div class="col-sm-4">
+														<select class="selectpicker" name="brandname" required>
+															<option value=""> Select </option>
+															<?php 
+															$brandquery = $dbh->prepare("select id,BrandName from tblbrand");
+															$brandquery->execute();
+															$brands = $brandquery->fetchAll(PDO::FETCH_OBJ);
+															if ($brandquery->rowCount() > 0) {
+																foreach ($brands as $brand) {
+															?>
+																<option value="<?php echo htmlentities($brand->id); ?>"><?php echo htmlentities($brand->BrandName); ?></option>
+															<?php }
+															} ?>
+
+														</select>
+													</div>
+												</div>
+
+												<div class="hr-dashed"></div>
+
+												<div class="form-group">
+													<label class="col-sm-2 control-label">Product Description<span style="color: red;">*</span></label>
+													<div class="col-sm-10">
+													    <textarea class="form-control" name="productdescription" rows="3" required></textarea>
 													</div>
 												</div>
 

@@ -94,6 +94,24 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 										<div class="col-md-3">
 											<div class="panel panel-default">
+												<div class="panel-body bk-success text-light">
+													<div class="stat-panel text-center">
+														<?php
+														$br = $dbh->prepare("SELECT id from tblbrand");
+														$br->execute();
+														$brands = $br->fetchAll(PDO::FETCH_OBJ);
+														$brands = $br->rowCount();
+														?>
+														<div class="stat-panel-number h1 "><?php echo htmlentities($brands); ?></div>
+														<div class="stat-panel-title text-uppercase">Listed Brands</div>
+													</div>
+												</div>
+												<a href="manage-brand.php" class="block-anchor panel-footer text-center">Full Details &nbsp; <i class="fa fa-arrow-right"></i></a>
+											</div>
+										</div>
+
+										<div class="col-md-3">
+											<div class="panel panel-default">
 												<div class="panel-body bk-info text-light">
 													<div class="stat-panel text-center">
 														<?php

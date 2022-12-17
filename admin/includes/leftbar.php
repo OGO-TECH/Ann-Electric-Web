@@ -10,6 +10,13 @@
 				</ul>
 			</li>
 
+			<li><a href="#"><i class="fa fa-files-o"></i>Brands</a>
+				<ul>
+					<li><a href="create-brand.php">Create Brand</a></li>
+					<li><a href="manage-brand.php">Manage Brands</a></li>
+				</ul>
+			</li>
+
 			<li><a href="create-subcategory.php"><i class="fa fa-files-o"></i>Create Sub-category</a></li>
 
 			<li><a href="#"><i class="fa fa-sitemap"></i>Products</a>
