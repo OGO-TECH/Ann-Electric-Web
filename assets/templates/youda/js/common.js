@@ -11,7 +11,7 @@ if(pageurl == '?m2w') {
     addCookie('m2wcookie', '1', 0);
 }
 if(getCookie('m2wcookie') != '1' && browserRedirect()) {
-    location.href = '/youda_wx/index.html';
+    location.href = 'youda_wx/index.php';
 }
 /*工具类方法
 ------------------------------------------------*/
