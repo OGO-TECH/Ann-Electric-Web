@@ -7,12 +7,12 @@ if (strlen($_SESSION['alogin']) == 0) {
 } else {
 
 	# Update category information 
-	if (isset($_POST['brand'])) {
+	if (isset($_POST['submit'])) {
 		$brand = $_POST['brand'];
 		$id = $_GET['id'];
 		$sql = "update  tblbrand set BrandName=:brandname where id=:id";
 		$query = $dbh->prepare($sql);
-		$query->bindParam(':brandname', $category, PDO::PARAM_STR);
+		$query->bindParam(':brandname', $brand, PDO::PARAM_STR);
 		$query->bindParam(':id', $id, PDO::PARAM_STR);
 		$query->execute();
 		$lastInsertId = $dbh->lastInsertId();
