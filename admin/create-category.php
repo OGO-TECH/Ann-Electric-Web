@@ -7,7 +7,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 } else {
 
 	# Assign form data on brands to variables. Insert to database tblbrands. 
-	if (isset($_POST['category'])) {
+	if (isset($_POST['submit'])) {
 		$category = $_POST['category'];
 		$parentid = 0;
 		$sql = "INSERT INTO  category(CategoryName, Parent_Id) VALUES(:category,:parentid)";
