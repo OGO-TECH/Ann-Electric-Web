@@ -111,7 +111,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         <select class="selectpicker" name="category" required>
                                                             <option value=""> Select </option>
                                                             <?php 
-                                                            $ret = "SELECT id,Parent_Id,CategoryName from category where Parent_Id = 0";
+                                                            $ret = "SELECT id,Parent_Id,CategoryName from category where Parent_Id IS NULL";
                                                             $query = $dbh->prepare($ret);
                                                             # $query->bindParam(':id',$id, PDO::PARAM_STR);
                                                             $query->execute();

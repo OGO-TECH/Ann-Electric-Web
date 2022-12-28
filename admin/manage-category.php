@@ -102,10 +102,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<th>Category Name</th>
 												<th>Action</th>
 											</tr>
-											</tr>
 										</tfoot>
 										<tbody>
-											<?php $sql = "SELECT * from  category where parent_id = 0 ";
+											<?php $sql = "SELECT * from  category where parent_id IS NULL ";
 											$query = $dbh->prepare($sql);
 											$query->execute();
 											$results = $query->fetchAll(PDO::FETCH_OBJ);

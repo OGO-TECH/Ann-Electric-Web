@@ -10,7 +10,7 @@
                     
                     <?php
                     # Query db for categories.
-                    $sql = "SELECT * from category where parent_id = 0;";
+                    $sql = "SELECT * from category where parent_id IS NULL;";
                     $query = $dbh->prepare($sql);
                     $query->execute();
                     $results = $query->fetchAll(PDO::FETCH_OBJ);

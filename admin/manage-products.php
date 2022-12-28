@@ -89,7 +89,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 								<div class="panel-body">
 									<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 									<?php
-									$sql = "SELECT id, parent_id, CategoryName FROM category where parent_id = 0";
+									$sql = "SELECT id, parent_id, CategoryName FROM category where parent_id IS NULL";
 									$query = $dbh->prepare($sql);
 									$query->execute();
                                     $categories = $query->fetchAll(PDO::FETCH_OBJ);

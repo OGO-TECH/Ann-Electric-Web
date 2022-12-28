@@ -8,7 +8,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 	# Update category information 
 	if (isset($_POST['submit'])) {
-		$brand = $_POST['brand'];
+		$brand = $_POST['brandname'];
 		$id = $_GET['id'];
 		$sql = "update  tblbrand set BrandName=:brandname where id=:id";
 		$query = $dbh->prepare($sql);
