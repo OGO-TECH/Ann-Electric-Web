@@ -140,7 +140,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<select class="selectpicker" name="category" required>
 															<option value="<?php echo htmlentities($result->cid);?>"><?php echo htmlentities($catname = $result->CategoryName);?></option>
 															<?php
-															$cats = $dbh->prepare("SELECT id, parent_id, CategoryName from category where parent_id = 0");
+															$cats = $dbh->prepare("SELECT id, parent_id, CategoryName from category where parent_id IS NULL");
 															$cats->execute();
 															$categories = $cats->fetchAll(PDO::FETCH_OBJ);
 															if ($cats->rowCount()>0){
@@ -158,7 +158,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<select class="selectpicker" name="subcategory">
 															<option value="<?php echo htmlentities($result->SubCategory);?>"><?php echo htmlentities($subname = $result->SubCategory);?></option>
 															<?php
-															$subcats = $dbh->prepare("SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id");
+															$subcats = $dbh->prepare("SELECT id,parent_id,CategoryName from category where parent_id IS NOT NULL ORDER BY id");
 															$subcats->execute();
 															$subcategories = $subcats->fetchAll(PDO::FETCH_OBJ);
 															if ($subcats->rowCount()>0){
