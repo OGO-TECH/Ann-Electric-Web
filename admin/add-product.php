@@ -146,6 +146,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 														<select id="category" class="selectpicker" name="category"  required>
 															<option value="">Select Category</option>
 															<?php
+															
 															$cats = $dbh->prepare("SELECT id, Parent_Id, CategoryName from category where Parent_Id IS NULL");
 															$cats->execute();
 															$categories = $cats->fetchAll(PDO::FETCH_OBJ);
@@ -160,9 +161,19 @@ if (strlen($_SESSION['alogin']) == 0) {
 													</div>
 													<label class="col-sm-2 control-label">Select SubCategory</span></label>
 													<div class="col-sm-4">
-														<select id="subcategory" class="selectpicker" name="subcategory" >
-															<option value="">Select SubCategory</option>
-															
+														<select class="selectpicker" name="subcategory">
+															<option value="">Select</option>
+															<?php
+															$subcats = $dbh->prepare("SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id");
+															$subcats->execute();
+															$subcategories = $subcats->fetchAll(PDO::FETCH_OBJ);
+															if ($subcats->rowCount()>0){
+																foreach ($subcategories as $subcategory){ ?>
+																<option value="<?php echo htmlentities($subcategory->id)?>"><?php echo htmlentities($subcategory->CategoryName);?></option>
+																<?php }
+															}
+														
+															?>
 														</select>
 													</div>
 												</div>

@@ -90,7 +90,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 										<div class="panel-heading">Form fields</div>
 										<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 										<div class="panel-body">
-											<form method="post" name="editcategory" class="form-horizontal">
+											<form method="post" class="form-horizontal">
 												<?php
 												$id = $_GET['id'];
 												$ret = "select * from category where id=:id";

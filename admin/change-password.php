@@ -25,7 +25,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 			$changepassword1->bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
 			$changepassword1->execute();
 			$msg = "Your password was succesfully changed";
-			header('location:index.php');
 		} else {
 			$error = "Your current password is not valid.";
 		}

@@ -78,7 +78,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<div class="panel-body bk-success text-light">
 													<div class="stat-panel text-center">
 														<?php
-														$sql1 = "SELECT parent_id from category where  parent_id = 0";
+														$sql1 = "SELECT parent_id from category where  parent_id IS NULL";
 														$query1 = $dbh->prepare($sql1);;
 														$query1->execute();
 														$results1 = $query1->fetchAll(PDO::FETCH_OBJ);
@@ -115,7 +115,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<div class="panel-body bk-info text-light">
 													<div class="stat-panel text-center">
 														<?php
-														$sql2 = "SELECT id from category where parent_id !=0";
+														$sql2 = "SELECT id from category where parent_id IS NOT NULL";
 														$query2 = $dbh->prepare($sql2);
 														$query2->execute();
 														$results2 = $query2->fetchAll(PDO::FETCH_OBJ);
