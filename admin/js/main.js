@@ -1,4 +1,4 @@
- $(document).ready(function () {
+$(document).ready(function () {
 	 
  	$(".ts-sidebar-menu li a").each(function () {
  		if ($(this).next().length > 0) {
@@ -18,9 +18,7 @@
  		$('nav.ts-sidebar').toggleClass('menu-open');
  	});
 	 
-	 
 	 $('#zctb').DataTable();
-	 
 	 
 	 $("#input-43").fileinput({
 		showPreview: false,
@@ -29,4 +27,16 @@
 			// you can configure `msgErrorClass` and `msgInvalidFileExtension` as well
 	});
 
- });
+	$('#category').on('change', function(){
+	    jQuery.ajax({
+	    	url:"ajaxData.php",
+	    	data:'id='+$("#category").val,
+			type:"POST",
+	    	success:function(html){
+	    		$('#subcategory').html(html);
+	    	}
+	    }); 
+		
+	});
+
+});

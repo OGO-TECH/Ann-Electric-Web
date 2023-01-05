@@ -101,7 +101,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 			}
 		</style>
-
+ 
 	</head>
 
 	<body>
@@ -143,10 +143,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 													
 													<label class="col-sm-2 control-label">Select Category<span style="color: red;">*</span></label>
 													<div class="col-sm-4">
-														<select class="selectpicker" name="category" required>
-															<option value="">Select</option>
+														<select id="category" class="selectpicker" name="category"  required>
+															<option value="">Select Category</option>
 															<?php
-															$cats = $dbh->prepare("SELECT id, parent_id, CategoryName from category where parent_id = 0");
+															$cats = $dbh->prepare("SELECT id, Parent_Id, CategoryName from category where Parent_Id IS NULL");
 															$cats->execute();
 															$categories = $cats->fetchAll(PDO::FETCH_OBJ);
 															if ($cats->rowCount()>0){
@@ -160,19 +160,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 													</div>
 													<label class="col-sm-2 control-label">Select SubCategory</span></label>
 													<div class="col-sm-4">
-														<select class="selectpicker" name="subcategory">
-															<option value="">Select</option>
-															<?php
-															$subcats = $dbh->prepare("SELECT id,parent_id,CategoryName from category where parent_id != 0 ORDER BY parent_id");
-															$subcats->execute();
-															$subcategories = $subcats->fetchAll(PDO::FETCH_OBJ);
-															if ($subcats->rowCount()>0){
-																foreach ($subcategories as $subcategory){ ?>
-																<option value="<?php echo htmlentities($subcategory->id)?>"><?php echo htmlentities($subcategory->CategoryName);?></option>
-																<?php }
-															}
-														
-															?>
+														<select id="subcategory" class="selectpicker" name="subcategory" >
+															<option value="">Select SubCategory</option>
+															
 														</select>
 													</div>
 												</div>
@@ -188,7 +178,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 													<label class="col-sm-2 control-label">Select Brand<span style="color:red">*</span></label>
 													<div class="col-sm-4">
 														<select class="selectpicker" name="brandname" required>
-															<option value=""> Select </option>
+															<option value=""> Select Brand </option>
 															<?php 
 															$brandquery = $dbh->prepare("select id,BrandName from tblbrand");
 															$brandquery->execute();
