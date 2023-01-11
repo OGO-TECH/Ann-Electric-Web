@@ -14,10 +14,10 @@ try {
 */
 
 //Remote db connection
-define('DB_HOST', 'remotemysql.com');
-define('DB_USER', 'HGzd6HwbFu');
-define('DB_PASS', 'VUCPObKUQG');
-define('DB_NAME', 'HGzd6HwbFu');
+define('DB_HOST', 'sql.freedb.tech');
+define('DB_USER', 'freedb_obara');
+define('DB_PASS', 'kST5YpSjTc$4JRp');
+define('DB_NAME', 'freedb_annelectric');
 // Establish database connection.
 try {
     $dbh = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
